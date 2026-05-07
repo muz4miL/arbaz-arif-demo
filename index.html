@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arbaz Arif — Elite Fitness Coaching</title>
+<meta name="description" content="Pakistan's premier online fitness coach. Personalized training, elite nutrition protocols, and the accountability system to make your transformation permanent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#030303;--bg2:#080808;--bg3:#0e0e0e;--bg4:#131313;
+  --border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.1);--border3:rgba(255,255,255,.15);
+  --lime:#c8ff00;--lime-dim:rgba(200,255,0,.08);--lime-glow:rgba(200,255,0,.2);--lime-sub:rgba(200,255,0,.5);
+  --text:#f0f0f0;--text2:rgba(255,255,255,.55);--text3:rgba(255,255,255,.3);--text4:rgba(255,255,255,.15);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
+::selection{background:var(--lime);color:#000}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--lime-sub);border-radius:3px}
+
+.noise{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:180px}
+
+.cursor{position:fixed;width:8px;height:8px;background:var(--lime);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .3s var(--ease),height .3s var(--ease)}.cursor.hover{width:48px;height:48px;background:transparent;border:1.5px solid var(--lime);mix-blend-mode:normal}
+
+.scroll-bar{position:fixed;top:0;left:0;right:0;height:2px;background:var(--lime);z-index:10001;transform-origin:left;transform:scaleX(0);box-shadow:0 0 30px var(--lime-glow)}
+
+.preloader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .8s var(--ease),opacity .8s var(--ease)}
+.preloader.done{transform:translateY(-100%);opacity:0;pointer-events:none}
+.pre-count{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,14vw,12rem);color:var(--lime);line-height:1}
+.pre-bar{width:160px;height:1px;background:var(--border2);margin-top:40px;overflow:hidden;border-radius:1px}
+.pre-fill{height:100%;background:var(--lime);transform:scaleX(0);transform-origin:left;border-radius:1px}
+.pre-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--text4);margin-top:20px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;transition:all .4s var(--ease)}
+nav.scrolled{background:rgba(3,3,3,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 48px}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.08em;color:var(--text);text-decoration:none}.nav-logo span{color:var(--lime)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);text-decoration:none;position:relative;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--lime);transition:width .5s var(--ease)}
+.nav-links a:hover{color:var(--text)}.nav-links a:hover::after{width:100%}
+.nav-cta{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#000;background:var(--lime);padding:12px 28px;text-decoration:none;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:all .3s var(--ease)}
+
+.hero{height:100vh;position:relative;overflow:hidden}
+.hero-img{position:absolute;inset:0;z-index:0}
+.hero-img img,.hero-img .fallback-bg{position:absolute;inset:0;width:100%;height:100%}
+.hero-img img{object-fit:cover;object-position:center;opacity:0;transition:opacity 1.2s ease}
+.hero-img img.loaded{opacity:1}
+.hero-img .fallback-bg{background:linear-gradient(160deg,#111508 0%,#0a0a0a 50%,#120808 100%)}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 50%,rgba(3,3,3,.7) 100%)}
+
+.btn-primary{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--lime);color:#000;padding:14px 32px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:all .3s var(--ease);position:relative;overflow:hidden;cursor:none}
+.btn-primary::before{content:'';position:absolute;inset:0;background:#fff;transform:translateY(101%);transition:transform .5s var(--ease);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+.btn-primary:hover::before{transform:translateY(0)}
+.btn-primary span,.btn-primary svg{position:relative;z-index:1}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-primary svg{transition:transform .3s}
+.btn-ghost{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .3s;cursor:none}
+.btn-ghost:hover{color:var(--lime)}
+.play-circle{width:36px;height:36px;border:1px solid var(--border3);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .3s}
+.btn-ghost:hover .play-circle{border-color:var(--lime)}
+
+.marquee{background:var(--lime);padding:10px 0;overflow:hidden;position:relative;z-index:5}
+.marquee-track{display:flex;width:max-content;animation:marqueeScroll 22s linear infinite}
+.marquee-item{font-family:'Bebas Neue',sans-serif;font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#000;padding:0 40px;display:flex;align-items:center;gap:16px;white-space:nowrap}
+.marquee-dot{width:4px;height:4px;background:#000;border-radius:50%;opacity:.3}
+@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+section{position:relative;z-index:2}.container{max-width:1200px;margin:0 auto;padding:0 48px}
+.section-tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);display:inline-flex;align-items:center;gap:10px;margin-bottom:16px}
+.section-tag::after{content:'';width:28px;height:1px;background:var(--lime);opacity:.4}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:700;line-height:1.08;letter-spacing:-.02em}
+.section-title .outline{-webkit-text-stroke:1px rgba(255,255,255,.12);color:transparent}
+.section-lead{font-size:13px;font-weight:400;line-height:1.7;color:var(--text2);max-width:420px;margin-top:12px}
+
+.about-section{padding:80px 0;background:var(--bg)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.about-visual{position:relative}
+.about-frame{background:var(--bg3);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center}
+.about-frame::before{content:'';position:absolute;top:0;left:20px;right:20px;height:2px;background:var(--lime);z-index:2}
+.about-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,255,0,.04) 0%,transparent 50%);z-index:1;pointer-events:none}
+.about-photo{width:100%;height:100%;object-fit:cover;object-position:center center;position:relative;z-index:3;display:none;border-radius:16px;filter:brightness(1.05) contrast(1.05)}
+.about-photo.show{display:block}
+.about-mono{font-family:'Bebas Neue',sans-serif;font-size:160px;color:rgba(200,255,0,.04);line-height:1;letter-spacing:-.05em;user-select:none;position:absolute;z-index:1}
+.about-svg{position:relative;z-index:2}
+.about-badge{position:absolute;bottom:-20px;right:-20px;background:var(--lime);color:#000;padding:20px 28px;border-radius:16px;z-index:3}
+.about-badge .num{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1}
+.about-badge .label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-top:2px}
+.about-tag{position:absolute;top:24px;left:-12px;background:var(--bg2);border:1px solid var(--border2);padding:10px 16px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--lime);letter-spacing:.1em;z-index:3}
+.about-body{font-size:13px;font-weight:400;line-height:1.75;color:var(--text2);margin-bottom:16px}
+.about-body strong{color:var(--text);font-weight:600}
+.credentials{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;margin-top:4px}
+.cred-item{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text2)}
+.cred-bullet{width:6px;height:6px;background:var(--lime);border-radius:50%;flex-shrink:0;box-shadow:0 0 8px var(--lime-glow)}
+
+.method-section{padding:80px 0;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.method-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:40px;background:var(--border);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.method-card{background:var(--bg3);padding:32px 28px;position:relative;transition:all .5s var(--ease);cursor:none;overflow:hidden}
+.method-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--lime);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.method-card:hover{background:var(--bg4)}.method-card:hover::before{transform:scaleX(1)}
+.method-icon{width:44px;height:44px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;background:var(--lime-dim);border-radius:12px;border:1px solid rgba(200,255,0,.1)}
+.method-icon svg{width:20px;height:20px;stroke:var(--lime);fill:none;stroke-width:1.5}
+.method-num{font-family:'Bebas Neue',sans-serif;font-size:44px;color:rgba(255,255,255,.04);line-height:1;margin-bottom:12px;transition:color .4s}
+.method-card:hover .method-num{color:rgba(200,255,0,.1)}
+.method-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;letter-spacing:.02em;margin-bottom:10px}
+.method-desc{font-size:13px;font-weight:400;line-height:1.7;color:var(--text3)}
+
+.plans-section{padding:80px 0;background:var(--bg);position:relative;overflow:hidden}
+.plans-section::before{content:'';position:absolute;top:-50%;left:-20%;width:60%;height:100%;background:radial-gradient(ellipse,rgba(200,255,0,.025) 0%,transparent 70%);pointer-events:none}
+.plans-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.plan-card{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:28px 28px;position:relative;overflow:hidden;transition:all .5s var(--ease);cursor:none;display:flex;flex-direction:column}
+.plan-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--lime),transparent);opacity:0;transition:opacity .5s}
+.plan-card:hover{border-color:var(--border2);transform:translateY(-6px);background:var(--bg4);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 40px rgba(200,255,0,.03)}
+.plan-card:hover::before{opacity:1}
+.plan-card.featured{background:linear-gradient(180deg,rgba(200,255,0,.06) 0%,var(--bg3) 40%);border-color:rgba(200,255,0,.15)}
+.plan-card.featured:hover{border-color:rgba(200,255,0,.3);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 60px rgba(200,255,0,.05)}
+.plan-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--lime);background:var(--lime-dim);padding:6px 12px;border-radius:100px;margin-bottom:20px;width:fit-content}
+.plan-badge .pulse{width:5px;height:5px;background:var(--lime);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.plan-name{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.plan-desc{font-size:13px;font-weight:400;line-height:1.6;color:var(--text3);margin-bottom:24px;flex:1}
+.plan-price{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1;margin-bottom:4px}
+.plan-price span{font-size:14px;font-weight:400;color:var(--text3);font-family:'Inter',sans-serif}
+.plan-tenure{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text4);letter-spacing:.05em;margin-bottom:24px}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.plan-features li{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2)}
+.plan-features li::before{content:'';width:14px;height:14px;background-image:url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 7L5.5 10L11.5 4' stroke='%23c8ff00' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-size:contain;flex-shrink:0}
+.plan-cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:0;border:1px solid var(--border2);border-radius:12px;color:var(--text2);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .4s var(--ease);cursor:pointer;position:relative;overflow:hidden}
+.plan-cta::before{content:'';position:absolute;inset:0;background:var(--lime);transform:translateY(101%);transition:transform .4s var(--ease);border-radius:11px}
+.plan-cta:hover::before{transform:translateY(0)}
+.plan-cta:hover{color:#000;border-color:var(--lime)}
+.plan-cta span{position:relative;z-index:1}
+.plan-wide{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:center;gap:40px;padding:32px 40px}
+.plan-wide .plan-left{display:flex;align-items:center;gap:32px}
+.plan-icon-wrap{width:56px;height:56px;background:var(--lime-dim);border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.plan-icon-wrap svg{width:24px;height:24px;stroke:var(--lime);fill:none;stroke-width:1.5}
+
+.results-section{padding:80px 0;background:var(--bg2);border-top:1px solid var(--border)}
+.results-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px}
+.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.result-card{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:24px 24px 28px;position:relative;overflow:hidden;transition:all .5s var(--ease);cursor:none}
+.result-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--lime);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.result-card:hover{border-color:var(--border2);transform:translateY(-4px)}.result-card:hover::after{transform:scaleX(1)}
+.result-avatar{width:48px;height:48px;border-radius:50%;margin-bottom:20px;overflow:hidden;position:relative;border:2px solid var(--border2);background:var(--bg2)}
+.result-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.result-avatar .initials{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--lime);background:var(--bg2);pointer-events:none}
+.result-avatar img.loaded + .initials{display:none}
+.result-name{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;margin-bottom:4px}
+.result-program{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--lime);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.result-quote{font-size:13px;font-weight:400;line-height:1.7;color:var(--text3);font-style:italic;margin-bottom:24px}
+.result-metrics{display:flex;gap:24px;padding-top:20px;border-top:1px solid var(--border)}
+.r-metric-val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--lime);line-height:1}
+.r-metric-label{font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+
+.process-section{padding:80px 0;background:var(--bg)}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:40px;background:var(--border);border-radius:20px;overflow:hidden;border:1px solid var(--border)}
+.process-card{background:var(--bg3);padding:32px 28px;position:relative;transition:all .5s var(--ease)}
+.process-card:hover{background:var(--bg4)}
+.process-num{font-family:'Bebas Neue',sans-serif;font-size:64px;color:rgba(255,255,255,.04);line-height:1;margin-bottom:20px;transition:color .4s}
+.process-card:hover .process-num{color:rgba(200,255,0,.1)}
+.process-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;margin-bottom:10px}
+.process-desc{font-size:13px;font-weight:400;line-height:1.7;color:var(--text3)}
+
+.testi-section{padding:80px 0;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.testi-card{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:28px;position:relative;transition:all .5s var(--ease)}
+.testi-card:hover{border-color:var(--border2);background:var(--bg4);transform:translateY(-4px)}
+.testi-mark{font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:.7;color:var(--lime);opacity:.25;margin-bottom:16px}
+.testi-text{font-size:14px;font-weight:400;line-height:1.8;color:var(--text2);font-style:italic;margin-bottom:28px}
+.testi-footer{display:flex;align-items:center;gap:14px;padding-top:24px;border-top:1px solid var(--border)}
+.testi-avatar{width:40px;height:40px;background:var(--lime-dim);border:1px solid rgba(200,255,0,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--lime);flex-shrink:0}
+.testi-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600}
+.testi-info{font-size:11px;color:var(--text4);letter-spacing:.05em}
+
+.ig-section{padding:60px 0;background:var(--bg3);border-top:1px solid var(--border)}
+.ig-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
+.ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+.ig-item{aspect-ratio:1;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer;transition:all .3s}
+.ig-item:hover{border-color:var(--lime)}.ig-item:hover .ig-overlay{opacity:1}
+.ig-overlay{position:absolute;inset:0;background:rgba(200,255,0,.12);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.ig-label{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--lime);letter-spacing:.1em}
+.ig-placeholder{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--border2);user-select:none}
+
+.sub-section{padding:80px 0;background:var(--bg);position:relative;overflow:hidden}
+.sub-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(200,255,0,.03) 0%,transparent 70%);pointer-events:none}
+.sub-card{background:var(--bg3);border:1px solid var(--border);border-radius:24px;padding:64px;text-align:center;position:relative;overflow:hidden;max-width:720px;margin:0 auto}
+.sub-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--lime),transparent)}
+.sub-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;margin-bottom:12px}
+.sub-desc{font-size:14px;color:var(--text3);margin-bottom:36px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7}
+.sub-form{display:flex;gap:12px;max-width:480px;margin:0 auto}
+.sub-input{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 20px;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;outline:0;transition:all .3s}
+.sub-input:focus{border-color:var(--lime);box-shadow:0 0 0 3px rgba(200,255,0,.08)}.sub-input::placeholder{color:var(--text4)}
+.sub-btn{padding:16px 28px;background:var(--lime);color:#000;border:none;border-radius:14px;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .4s var(--ease);position:relative;overflow:hidden}
+.sub-btn::before{content:'';position:absolute;inset:0;background:#fff;transform:translateX(-101%);transition:transform .4s var(--ease)}.sub-btn:hover::before{transform:translateX(0)}
+.sub-btn span{position:relative;z-index:1}
+.sub-note{font-size:11px;color:var(--text4);margin-top:16px;letter-spacing:.03em}
+
+.cta-section{padding:100px 0;background:var(--lime);position:relative;overflow:hidden}
+.cta-section::before{content:'START';position:absolute;right:-60px;top:50%;transform:translateY(-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(160px,20vw,300px);color:rgba(0,0,0,.04);pointer-events:none;line-height:1;letter-spacing:-.02em}
+.cta-grid{display:grid;grid-template-columns:1fr auto;gap:80px;align-items:center;position:relative;z-index:1}
+.cta-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,6vw,100px);line-height:.92;letter-spacing:.02em;color:#000}
+.cta-sub{font-size:15px;color:rgba(0,0,0,.55);margin-top:16px;max-width:420px;line-height:1.7}
+.cta-actions{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:18px 36px;text-decoration:none;transition:all .4s var(--ease);cursor:none;overflow:hidden;white-space:nowrap}
+.cta-btn.dark{background:#000;color:var(--lime);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.cta-btn.dark:hover{transform:translateY(-2px)}
+.cta-btn.outline{background:0;color:rgba(0,0,0,.7);border:1px solid rgba(0,0,0,.2)}.cta-btn.outline:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.4)}
+.cta-note{font-size:11px;color:rgba(0,0,0,.45);letter-spacing:.05em;margin-top:4px}
+
+footer{background:var(--bg2);padding:60px 48px 40px;border-top:1px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:auto 1fr auto;gap:60px;align-items:start;max-width:1200px;margin:0 auto}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.08em;margin-bottom:10px}.footer-logo span{color:var(--lime)}
+.footer-tagline{font-size:13px;color:var(--text3);max-width:240px;line-height:1.6}
+.footer-links{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;align-self:center}
+.footer-links a{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .3s}
+.footer-links a:hover{color:var(--lime)}
+.footer-social{display:flex;gap:10px}
+.social-link{width:40px;height:40px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter',sans-serif;transition:all .4s var(--ease);cursor:none}
+.social-link:hover{border-color:var(--lime);color:var(--lime);background:var(--lime-dim);transform:translateY(-2px)}
+.footer-bottom{max-width:1200px;margin:48px auto 0;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:11px;color:var(--text4);letter-spacing:.05em}
+.footer-accent{width:32px;height:2px;background:var(--lime);border-radius:2px}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:1024px){
+  .about-grid{grid-template-columns:1fr;gap:48px}.plans-grid{grid-template-columns:1fr}
+  .results-grid{grid-template-columns:repeat(2,1fr)}.method-grid{grid-template-columns:repeat(2,1fr)}
+  .process-grid{grid-template-columns:repeat(2,1fr)}.testi-grid{grid-template-columns:1fr}
+  .ig-grid{grid-template-columns:repeat(3,1fr)}.cta-grid{grid-template-columns:1fr;gap:40px;text-align:center}
+  .cta-actions{align-items:center}.footer-grid{grid-template-columns:1fr;gap:40px;text-align:center}
+  .footer-social{justify-content:center}.footer-links{justify-content:center}
+  .footer-bottom{flex-direction:column;gap:12px}
+}
+@media(max-width:768px){
+  nav{padding:16px 24px}nav.scrolled{padding:12px 24px}.nav-links{display:none}.container{padding:0 24px}
+  .hero{height:80vh}
+  section{padding:60px 0}
+  .results-grid{grid-template-columns:1fr}.method-grid{grid-template-columns:1fr}
+  .process-grid{grid-template-columns:1fr}.sub-card{padding:32px 20px}.sub-form{flex-direction:column}
+  .plans-header{flex-direction:column;align-items:flex-start;gap:12px}
+  .results-header{flex-direction:column;align-items:flex-start;gap:12px}
+  body{cursor:auto}.cursor{display:none}
+  .ig-grid{grid-template-columns:repeat(2,1fr)}
+  .plan-wide{grid-template-columns:1fr!important}.plan-wide .plan-left{flex-direction:column;text-align:center}
+  .btn-primary,.btn-ghost,.plan-cta,.cta-btn,.sub-btn,.social-link{cursor:pointer}
+  .method-card{padding:24px 20px}.process-card{padding:24px 20px}.plan-card{padding:24px 20px}
+  .result-card{padding:20px}
+}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="scroll-bar" id="scrollBar"></div>
+<div class="cursor" id="cursor"></div>
+
+<div class="preloader" id="preloader">
+  <div class="pre-count" id="preCount">0</div>
+  <div class="pre-bar"><div class="pre-fill" id="preFill"></div></div>
+  <div class="pre-label">Loading Experience</div>
+</div>
+
+<nav id="mainNav">
+  <a href="#" class="nav-logo">ARBAZ<span>.</span>ARIF</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#subscribe">Subscribe</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta"><span>Start Now</span></a>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-img">
+    <div class="fallback-bg"></div>
+    <img src="arbaz1.png" alt="Arbaz Arif" id="heroImg">
+  </div>
+  <div class="hero-overlay"></div>
+</section>
+
+<div class="marquee"><div class="marquee-track">
+  <span class="marquee-item">Online Coaching <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Nutrition Plans <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Body Transformation <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Muscle Building <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Fat Loss Protocol <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Strength Training <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Lifestyle Coaching <span class="marquee-dot"></span></span>
+  <span class="marquee-item">24/7 Support <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Online Coaching <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Nutrition Plans <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Body Transformation <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Muscle Building <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Fat Loss Protocol <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Strength Training <span class="marquee-dot"></span></span>
+  <span class="marquee-item">Lifestyle Coaching <span class="marquee-dot"></span></span>
+  <span class="marquee-item">24/7 Support <span class="marquee-dot"></span></span>
+</div></div>
+
+<section class="about-section" id="about"><div class="container"><div class="about-grid">
+  <div class="about-visual reveal" id="aboutVisual">
+    <div class="about-frame" id="aboutFrame">
+      <!-- REPLACE: Change src to Arbaz's actual photo -->
+      <img src="arbaz2.png" alt="Arbaz Arif" class="about-photo" id="aboutPhoto">
+      <div class="about-mono">AA</div>
+      <svg class="about-svg" width="240" height="360" viewBox="0 0 240 360" fill="none">
+        <ellipse cx="120" cy="40" rx="26" ry="28" fill="rgba(200,255,0,.05)" stroke="rgba(200,255,0,.2)" stroke-width="1.5"/>
+        <path d="M56 68C56 68 92 60 120 60C148 60 184 68 184 68L192 168C192 168 156 175 120 175C84 175 48 168 48 168Z" fill="rgba(200,255,0,.04)" stroke="rgba(200,255,0,.15)" stroke-width="1.5"/>
+        <path d="M56 72l-28 62 8 10 12 24 20-58z" fill="rgba(200,255,0,.03)" stroke="rgba(200,255,0,.1)" stroke-width="1"/>
+        <path d="M184 72l28 62-8 10-12 24-20-58z" fill="rgba(200,255,0,.03)" stroke="rgba(200,255,0,.1)" stroke-width="1"/>
+        <path d="M48 168h144l-12 72H60z" fill="rgba(200,255,0,.03)" stroke="rgba(200,255,0,.1)" stroke-width="1"/>
+        <path d="M60 240l12 80h28l4-80z" fill="rgba(200,255,0,.03)" stroke="rgba(200,255,0,.08)" stroke-width="1"/>
+        <path d="M180 240l-12 80h-28l-4-80z" fill="rgba(200,255,0,.03)" stroke="rgba(200,255,0,.08)" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="about-badge"><div class="num">10+</div><div class="label">Years Elite<br>Coaching</div></div>
+    <div class="about-tag">@arbazxarif_coaching</div>
+  </div>
+  <div class="about-content reveal" id="aboutContent">
+    <div class="section-tag">About the Coach</div>
+    <h2 class="section-title">The Man Behind<br>the <span class="outline">Results</span></h2>
+    <p class="section-lead" style="margin-bottom:28px">Science-backed coaching for serious transformations.</p>
+<p class="about-body">Arbaz Arif is Pakistan's <strong>most trusted online fitness coach</strong>, with 500+ transformations across Pakistan, UAE, UK. His approach blends elite programming with lifestyle adaptation — so you <strong>keep your results.</strong></p>
+        <p class="about-body">Certified trainer specializing in metabolic conditioning, body recomposition, and sustainable nutrition.</p>
+    <div class="credentials">
+      <div class="cred-item"><div class="cred-bullet"></div>Certified Personal Trainer & Nutrition Coach</div>
+      <div class="cred-item"><div class="cred-bullet"></div>Specialist in Body Recomposition & Fat Loss</div>
+      <div class="cred-item"><div class="cred-bullet"></div>Online Coaching — Work from anywhere</div>
+      <div class="cred-item"><div class="cred-bullet"></div>500+ Verified Client Transformations</div>
+      <div class="cred-item"><div class="cred-bullet"></div>10+ Years Industry Experience</div>
+    </div>
+    <a href="#plans" class="btn-primary"><span>Explore Plans</span> <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</div></div></section>
+
+<section class="method-section"><div class="container">
+  <div class="reveal" id="methodHeader"><div class="section-tag">The Method</div><h2 class="section-title">Four Pillars of<br><span class="outline">Transformation</span></h2></div>
+  <div class="method-grid" id="methodGrid">
+    <div class="method-card"><div class="method-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="method-num">01</div><div class="method-title">Precision Training</div><div class="method-desc">Every rep and set calculated for your biomechanics. No guesswork.</div></div>
+    <div class="method-card"><div class="method-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg></div><div class="method-num">02</div><div class="method-title">Metabolic Nutrition</div><div class="method-desc">Custom macros that adapt as your body changes. Sustainable, not starvation.</div></div>
+    <div class="method-card"><div class="method-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="method-num">03</div><div class="method-title">Accountability Systems</div><div class="method-desc">Daily check-ins, form reviews, and real-time adjustments.</div></div>
+    <div class="method-card"><div class="method-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="method-num">04</div><div class="method-title">Lifestyle Integration</div><div class="method-desc">Programs built around your schedule. Fitness that fits your life.</div></div>
+  </div>
+</div></section>
+
+<section class="plans-section" id="plans"><div class="container">
+  <div class="plans-header reveal" id="plansHeader"><div><div class="section-tag">Choose Your Path</div><h2 class="section-title">Coaching<br><span class="outline">Programs</span></h2></div><p class="section-lead" style="max-width:280px">Every plan is fully personalized. No generic templates. Just results.</p></div>
+  <div class="plans-grid reveal" id="plansGrid">
+    <div class="plan-card"><div class="plan-badge">Ramadan</div><div class="plan-name">Ramadan Plan</div><div class="plan-desc">Specialized programming for fasting schedules. Maintain muscle, manage energy, and stay on track during Ramadan.</div><div class="plan-price">9,999 <span>PKR</span></div><div class="plan-tenure">4-WEEK PROGRAM</div><ul class="plan-features"><li>Fasting-adapted training split</li><li>Suhoor & Iftar macro guides</li><li>Hydration & recovery protocols</li><li>Weekly check-ins via WhatsApp</li></ul><a href="https://wa.me/923001234567?text=Hi%20Arbaz%2C%20I%27m%20interested%20in%20the%20Ramadan%20Plan" target="_blank" class="plan-cta"><span>Apply on WhatsApp</span></a></div>
+    <div class="plan-card"><div class="plan-badge">Entry</div><div class="plan-name">Starter Plan</div><div class="plan-desc">Your gateway to serious fitness. A structured 12-week program that builds the foundation for lasting change.</div><div class="plan-price">10,000 <span>PKR</span></div><div class="plan-tenure">12-WEEK PROGRAM</div><ul class="plan-features"><li>Custom weekly workout plan</li><li>Calorie + macro targets</li><li>Bi-weekly check-ins</li><li>Progress tracking dashboard</li></ul><a href="https://wa.me/923001234567?text=Hi%20Arbaz%2C%20I%27m%20interested%20in%20the%20Starter%20Plan" target="_blank" class="plan-cta"><span>Apply on WhatsApp</span></a></div>
+    <div class="plan-card featured"><div class="plan-badge"><span class="pulse"></span> Most Popular</div><div class="plan-name">Premium Plan</div><div class="plan-desc">The complete transformation package. Personalized training, detailed nutrition, and direct access to Arbaz.</div><div class="plan-price">18,000 <span>PKR</span></div><div class="plan-tenure">16-WEEK PROGRAM</div><ul class="plan-features"><li>Fully custom training split</li><li>Detailed nutrition + meal ideas</li><li>Daily WhatsApp support</li><li>Form video reviews</li><li>Monthly progress assessments</li></ul><a href="https://wa.me/923001234567?text=Hi%20Arbaz%2C%20I%27m%20interested%20in%20the%20Premium%20Plan" target="_blank" class="plan-cta" style="border-color:rgba(200,255,0,.2)"><span>Apply on WhatsApp</span></a></div>
+  </div>
+  <div style="display:grid;gap:16px;margin-top:16px" class="reveal">
+    <div class="plan-card plan-wide"><div class="plan-left"><div class="plan-icon-wrap"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="var(--lime)" fill="none" stroke-width="1.5"/></svg></div><div><div class="plan-name" style="margin-bottom:4px">Elite Plan</div><div class="plan-desc" style="margin-bottom:8px;max-width:400px">For those who demand the absolute best. Intensive programming with priority support and accelerated transformation protocols.</div><div class="plan-price" style="font-size:24px">30,000 <span style="font-size:13px">PKR</span></div></div></div><a href="https://wa.me/923001234567?text=Hi%20Arbaz%2C%20I%27m%20interested%20in%20the%20Elite%20Plan" target="_blank" class="plan-cta" style="width:auto;padding:14px 32px"><span>Apply</span></a></div>
+    <div class="plan-card plan-wide" style="background:linear-gradient(135deg,rgba(200,255,0,.04) 0%,var(--bg3) 50%)"><div class="plan-left"><div class="plan-icon-wrap" style="background:rgba(200,255,0,.12)"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="var(--lime)" fill="none" stroke-width="1.5"/></svg></div><div><div class="plan-name" style="margin-bottom:4px">Prestige Plan — 1:1 Mentorship</div><div class="plan-desc" style="margin-bottom:8px;max-width:400px">Direct 1-on-1 mentorship with Arbaz. Weekly video calls, fully managed programming, and white-glove service.</div><div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lime);letter-spacing:.1em">BY APPLICATION ONLY</div></div></div><a href="https://wa.me/923001234567?text=Hi%20Arbaz%2C%20I%27d%20like%20to%20apply%20for%20the%20Prestige%20Plan" target="_blank" class="plan-cta" style="width:auto;padding:14px 32px;background:var(--lime);border-color:var(--lime);color:#000"><span style="position:relative;z-index:1">Apply</span></a></div>
+  </div>
+</div></section>
+
+<section class="results-section" id="results"><div class="container">
+  <div class="results-header reveal" id="resultsHeader"><div><div class="section-tag">Client Results</div><h2 class="section-title">Real<br><span class="outline">Transformations</span></h2></div><a href="#cta" class="btn-primary"><span>Get Your Results</span> <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+  <div class="results-grid reveal" id="resultsGrid">
+    <div class="result-card"><div class="result-avatar"><img src="https://randomuser.me/api/portraits/men/51.jpg" alt="Ahmed K." onerror="this.style.display='none'" loading="lazy"><span class="initials">AK</span></div><div class="result-name">Ahmed K.</div><div class="result-program">Elite Plan</div><div class="result-quote">"I never thought I could look like this at 34. Arbaz changed my whole relationship with fitness. It's now a lifestyle."</div><div class="result-metrics"><div><div class="r-metric-val">22kg</div><div class="r-metric-label">Lost</div></div><div><div class="r-metric-val">16wk</div><div class="r-metric-label">Duration</div></div></div></div>
+
+    <div class="result-card"><div class="result-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sara R." onerror="this.style.display='none'" loading="lazy"><span class="initials">SR</span></div><div class="result-name">Sara R.</div><div class="result-program">Premium Plan</div><div class="result-quote">"Lost 15kg and completely changed my body. The meal plans were realistic — I actually enjoyed eating."</div><div class="result-metrics"><div><div class="r-metric-val">15kg</div><div class="r-metric-label">Lost</div></div><div><div class="r-metric-val">12wk</div><div class="r-metric-label">Duration</div></div></div></div>
+
+    <div class="result-card"><div class="result-avatar"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Usman M." onerror="this.style.display='none'" loading="lazy"><span class="initials">UM</span></div><div class="result-name">Usman M.</div><div class="result-program">Starter Plan</div><div class="result-quote">"Gained 8kg of muscle in 4 months. My lifts went through the roof. Arbaz's programming is elite."</div><div class="result-metrics"><div><div class="r-metric-val">+8kg</div><div class="r-metric-label">Muscle</div></div><div><div class="r-metric-val">16wk</div><div class="r-metric-label">Duration</div></div></div></div>
+
+    <div class="result-card"><div class="result-avatar"><img src="https://randomuser.me/api/portraits/women/17.jpg" alt="Fatima H." onerror="this.style.display='none'" loading="lazy"><span class="initials">FH</span></div><div class="result-name">Fatima H.</div><div class="result-program">Premium Plan</div><div class="result-quote">"The WhatsApp support alone is worth everything. Having Arbaz in my corner kept me accountable."</div><div class="result-metrics"><div><div class="r-metric-val">18kg</div><div class="r-metric-label">Lost</div></div><div><div class="r-metric-val">20wk</div><div class="r-metric-label">Duration</div></div></div></div>
+  </div>
+</div></section>
+
+<section class="process-section" id="process"><div class="container">
+  <div class="reveal" id="processHeader"><div class="section-tag">How It Works</div><h2 class="section-title">The<br><span class="outline">Process</span></h2></div>
+  <div class="process-grid reveal" id="processGrid">
+    <div class="process-card"><div class="process-num">01</div><div class="process-title">Apply & Consult</div><div class="process-desc">Fill out the intake form. We hop on a free call to understand your goals, schedule, and training history.</div></div>
+    <div class="process-card"><div class="process-num">02</div><div class="process-title">Custom Blueprint</div><div class="process-desc">Within 48 hours, receive your fully personalized training program + nutrition plan built for your body.</div></div>
+    <div class="process-card"><div class="process-num">03</div><div class="process-title">Execute & Adapt</div><div class="process-desc">You train. I track. Weekly check-ins and constant adjustments ensure you're always progressing.</div></div>
+    <div class="process-card"><div class="process-num">04</div><div class="process-title">Transform & Own</div><div class="process-desc">Achieve your goal physique and the knowledge to maintain it forever. This is your new normal.</div></div>
+  </div>
+</div></section>
+
+<section class="testi-section" id="testimonials"><div class="container">
+  <div class="reveal" id="testiHeader" style="text-align:center"><div class="section-tag" style="justify-content:center">What Clients Say</div><h2 class="section-title">Real Words,<br><span class="outline">Real People</span></h2></div>
+  <div class="testi-grid reveal" id="testiGrid">
+    <div class="testi-card"><div class="testi-mark">"</div><div class="testi-text">Honestly the best investment I've made for my health. In 3 months I went from embarrassed to take my shirt off to genuinely proud of how I look.</div><div class="testi-footer"><div class="testi-avatar">ZA</div><div><div class="testi-name">Zain Abbas</div><div class="testi-info">Lahore, PK</div></div></div></div>
+    <div class="testi-card"><div class="testi-mark">"</div><div class="testi-text">I'm based in Dubai and was skeptical about online coaching but the results speak for themselves. Lost 20kg in 5 months and learned how to eat properly.</div><div class="testi-footer"><div class="testi-avatar">MN</div><div><div class="testi-name">M. Naveed</div><div class="testi-info">Dubai, UAE</div></div></div></div>
+    <div class="testi-card"><div class="testi-mark">"</div><div class="testi-text">The level of personalization is insane. He actually read my food preferences, my schedule, my gym equipment and built the plan around ME. Not some generic template.</div><div class="testi-footer"><div class="testi-avatar">HA</div><div><div class="testi-name">Hira Asif</div><div class="testi-info">Karachi, PK</div></div></div></div>
+  </div>
+</div></section>
+
+<section class="ig-section"><div class="container">
+  <div class="ig-header reveal" id="igHeader"><div><div class="section-tag" style="margin-bottom:8px">Social</div><h2 class="section-title" style="font-size:clamp(2rem,3vw,2.5rem)">Follow<br>the Journey</h2></div><a href="https://www.instagram.com/arbazxarif_coaching/" target="_blank" class="btn-ghost">@arbazxarif_coaching &rarr;</a></div>
+  <div class="ig-grid reveal" id="igGrid">
+    <div class="ig-item"><div class="ig-placeholder">01</div><div class="ig-overlay"><span class="ig-label">IG</span></div></div>
+    <div class="ig-item"><div class="ig-placeholder">02</div><div class="ig-overlay"><span class="ig-label">IG</span></div></div>
+    <div class="ig-item"><div class="ig-placeholder">03</div><div class="ig-overlay"><span class="ig-label">IG</span></div></div>
+    <div class="ig-item"><div class="ig-placeholder">04</div><div class="ig-overlay"><span class="ig-label">IG</span></div></div>
+    <div class="ig-item"><div class="ig-placeholder">05</div><div class="ig-overlay"><span class="ig-label">IG</span></div></div>
+    <div class="ig-item"><div class="ig-placeholder">06</div><div class="ig-overlay"><span class="ig-label">IG</span></div></div>
+  </div>
+</div></section>
+
+<section class="sub-section" id="subscribe"><div class="container">
+  <div class="sub-card reveal" id="subCard">
+    <div class="section-tag" style="justify-content:center;margin-bottom:16px">Newsletter</div>
+    <h3 class="sub-title">Get Free Fitness Insights</h3>
+    <p class="sub-desc">Weekly training tips, nutrition hacks, and exclusive offers. No spam, ever.</p>
+    <form class="sub-form" id="subForm">
+      <input type="email" class="sub-input" placeholder="Enter your email" required>
+      <button type="submit" class="sub-btn"><span>Subscribe</span></button>
+    </form>
+    <p class="sub-note">Join 2,000+ subscribers. Unsubscribe anytime.</p>
+  </div>
+</div></section>
+
+<section class="cta-section" id="cta"><div class="container"><div class="cta-grid">
+  <div class="reveal" id="ctaLeft"><h2 class="cta-title">Ready to<br>Transform<br>Your Life?</h2><p class="cta-sub">Spots are limited to ensure every client gets the attention they deserve. Apply today and lock in your transformation.</p></div>
+  <div class="cta-actions reveal" id="ctaRight">
+    <a href="https://wa.me/923001234567?text=Hi%20Arbaz%2C%20I%27m%20ready%20to%20start%20my%20transformation" target="_blank" class="cta-btn dark"><span>Apply via WhatsApp</span></a>
+    <a href="https://www.instagram.com/arbazxarif_coaching/" target="_blank" class="cta-btn outline">DM on Instagram</a>
+    <div class="cta-note">Free 15-minute consultation included</div>
+  </div>
+</div></div></section>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">ARBAZ<span>.</span>ARIF</div><div class="footer-tagline">Elite fitness coaching for people who are serious about their results.</div></div>
+    <div class="footer-links">
+      <a href="#about">About</a><a href="#plans">Plans</a><a href="#results">Results</a><a href="#process">Process</a><a href="#subscribe">Subscribe</a><a href="#cta">Contact</a>
+    </div>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/arbazxarif_coaching/" target="_blank" class="social-link">IG</a>
+      <a href="https://wa.me/923001234567" target="_blank" class="social-link">WA</a>
+      <a href="#" class="social-link">TT</a>
+      <a href="#" class="social-link">YT</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">&copy; 2025 Arbaz Arif Coaching</div>
+    <div class="footer-accent"></div>
+    <div class="footer-copy">Designed with precision</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ─── SAFE PRELOADER ───
+  var preEl = document.getElementById('preloader');
+  var preCount = document.getElementById('preCount');
+  var preFill = document.getElementById('preFill');
+  var preDone = false;
+
+  function dismissPreloader() {
+    if (preDone) return;
+    preDone = true;
+    preEl.classList.add('done');
+    setTimeout(function(){ preEl.style.display = 'none'; startAnimations(); }, 900);
+  }
+
+  // Failsafe: auto-dismiss after 4 seconds no matter what
+  setTimeout(dismissPreloader, 4000);
+
+  // Check if GSAP loaded
+  if (typeof gsap !== 'undefined' && gsap.to) {
+    var prog = { v: 0 };
+    gsap.to(prog, {
+      v: 100, duration: 2.2, ease: 'power4.inOut',
+      onUpdate: function() {
+        if (preCount) preCount.textContent = Math.round(prog.v);
+        if (preFill) preFill.style.transform = 'scaleX(' + (prog.v / 100) + ')';
+      },
+      onComplete: dismissPreloader
+    });
+  } else {
+    // GSAP didn't load — dismiss immediately
+    dismissPreloader();
+  }
+
+function startAnimations() {
+    // Hero entrance
+    if (typeof gsap !== 'undefined' && gsap.to) {
+      var tl = gsap.timeline({ delay: 0.3 });
+
+      tl.to('.hero-img img', { opacity: 1, duration: 1.2, ease: 'power2.out' });
+
+      // Scroll animations
+      gsap.registerPlugin(ScrollTrigger);
+
+      ScrollTrigger.create({
+        trigger: document.body, start: 'top top', end: 'bottom bottom',
+        onUpdate: function(self) { document.getElementById('scrollBar').style.transform = 'scaleX(' + self.progress + ')'; }
+      });
+
+      // Section reveals
+      var revealSections = [
+        { trigger: '#about', el: '#aboutVisual', x: -80 },
+        { trigger: '#about', el: '#aboutContent', x: 80 },
+      ];
+      revealSections.forEach(function(s) {
+        gsap.from(s.el, { x: s.x, opacity: 0, duration: 1.2, scrollTrigger: { trigger: s.trigger, start: 'top 70%', toggleActions: 'play none none reverse' } });
+      });
+
+      gsap.from('.credentials .cred-item', { x: 30, opacity: 0, duration: 0.6, stagger: 0.1, scrollTrigger: { trigger: '.credentials', start: 'top 80%', toggleActions: 'play none none reverse' } });
+      gsap.from('#methodHeader', { y: 50, opacity: 0, duration: 1, scrollTrigger: { trigger: '.method-section', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('.method-card', { y: 60, opacity: 0, duration: 0.8, stagger: 0.15, scrollTrigger: { trigger: '#methodGrid', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('#plansHeader', { y: 50, opacity: 0, duration: 1, scrollTrigger: { trigger: '#plans', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('.plan-card:not(.plan-wide)', { y: 80, opacity: 0, duration: 0.9, stagger: 0.12, scrollTrigger: { trigger: '#plansGrid', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('.plan-card.plan-wide', { y: 60, opacity: 0, duration: 0.9, stagger: 0.15, scrollTrigger: { trigger: '.plan-wide', start: 'top 85%', toggleActions: 'play none none reverse' } });
+      gsap.from('#resultsHeader', { y: 50, opacity: 0, duration: 1, scrollTrigger: { trigger: '#results', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('.result-card', { y: 60, opacity: 0, duration: 0.8, stagger: 0.1, scrollTrigger: { trigger: '#resultsGrid', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('#processHeader', { y: 50, opacity: 0, duration: 1, scrollTrigger: { trigger: '#process', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('.process-card', { y: 60, opacity: 0, duration: 0.8, stagger: 0.15, scrollTrigger: { trigger: '#processGrid', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('#testiHeader', { y: 50, opacity: 0, duration: 1, scrollTrigger: { trigger: '#testimonials', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('.testi-card', { y: 60, opacity: 0, duration: 0.8, stagger: 0.15, scrollTrigger: { trigger: '#testiGrid', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('#igHeader', { y: 50, opacity: 0, duration: 1, scrollTrigger: { trigger: '.ig-section', start: 'top 80%', toggleActions: 'play none none reverse' } });
+      gsap.from('.ig-item', { y: 40, opacity: 0, duration: 0.6, stagger: 0.08, scrollTrigger: { trigger: '#igGrid', start: 'top 85%', toggleActions: 'play none none reverse' } });
+      gsap.from('#subCard', { y: 60, opacity: 0, scale: 0.95, duration: 1, scrollTrigger: { trigger: '#subscribe', start: 'top 75%', toggleActions: 'play none none reverse' } });
+      gsap.from('#ctaLeft', { x: -60, opacity: 0, duration: 1, scrollTrigger: { trigger: '#cta', start: 'top 70%', toggleActions: 'play none none reverse' } });
+      gsap.from('#ctaRight', { x: 60, opacity: 0, duration: 1, scrollTrigger: { trigger: '#cta', start: 'top 70%', toggleActions: 'play none none reverse' } });
+
+      // 3D tilt on cards
+      document.querySelectorAll('.plan-card,.result-card,.testi-card').forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+          var r = card.getBoundingClientRect();
+          gsap.to(card, { rotateX: (e.clientY - r.top - r.height/2) / 15, rotateY: (r.width/2 - (e.clientX - r.left)) / 15, transformPerspective: 1000, duration: 0.3, ease: 'power2.out' });
+        });
+        card.addEventListener('mouseleave', function() {
+          gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' });
+        });
+      });
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+          var t = document.querySelector(this.getAttribute('href'));
+          if (t) { e.preventDefault(); gsap.to(window, { duration: 1.2, scrollTo: { y: t, offsetY: 80 }, ease: 'power3.inOut' }); }
+        });
+      });
+    }
+  }
+
+  // ─── CURSOR ───
+  var cursor = document.getElementById('cursor');
+  if (cursor) {
+    var cx = 0, cy = 0;
+    document.addEventListener('mousemove', function(e) { cx = e.clientX; cy = e.clientY; cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px'; });
+    document.querySelectorAll('a,button,.plan-cta,.btn-primary,.btn-ghost,.cta-btn,.social-link,.result-card,.method-card,.testi-card,.ig-item').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
+      el.addEventListener('mouseleave', function() { cursor.classList.remove('hover'); });
+    });
+  }
+
+  // ─── NAV SCROLL ───
+  var navEl = document.getElementById('mainNav');
+  if (navEl) {
+    window.addEventListener('scroll', function() { navEl.classList.toggle('scrolled', window.scrollY > 60); });
+  }
+
+  // ─── INTERSECTION OBSERVER ───
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+
+  // ─── IMAGE HANDLING ───
+  var heroImg = document.getElementById('heroImg');
+  if (heroImg) {
+    heroImg.addEventListener('load', function() {
+      this.classList.add('loaded');
+    });
+    heroImg.addEventListener('error', function() { this.style.display = 'none'; });
+  }
+
+  var aboutPhoto = document.getElementById('aboutPhoto');
+  if (aboutPhoto) {
+    aboutPhoto.addEventListener('error', function() { this.style.display = 'none'; });
+    aboutPhoto.addEventListener('load', function() { this.classList.add('show'); });
+  }
+
+  // ─── SUBSCRIBE ───
+  var subForm = document.getElementById('subForm');
+  if (subForm) {
+    subForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = this.querySelector('.sub-btn');
+      btn.innerHTML = '<span>Subscribed</span>';
+      btn.style.background = '#1a1a1a'; btn.style.color = 'var(--lime)';
+      var self = this;
+      setTimeout(function() { btn.innerHTML = '<span>Subscribe</span>'; btn.style.background = ''; btn.style.color = ''; self.reset(); }, 3000);
+    });
+  }
+
+})();
+</script>
+</body>
+</html>
