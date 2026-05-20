@@ -16,7 +16,10 @@ function ClientAvatar({ name }: { name: string }) {
   );
 }
 
-function StatCard({ item }: Extract<ResultsMarqueeItem, { type: "stat" }>) {
+type StatMarqueeItem = Extract<ResultsMarqueeItem, { type: "stat" }>;
+type QuoteMarqueeItem = Extract<ResultsMarqueeItem, { type: "quote" }>;
+
+function StatCard({ item }: { item: StatMarqueeItem }) {
   return (
     <div
       className="results-card results-card--stat plan-card-new"
@@ -34,7 +37,7 @@ function StatCard({ item }: Extract<ResultsMarqueeItem, { type: "stat" }>) {
   );
 }
 
-function QuoteCard({ item }: Extract<ResultsMarqueeItem, { type: "quote" }>) {
+function QuoteCard({ item }: { item: QuoteMarqueeItem }) {
   return (
     <div className="results-card results-card--quote plan-card-new">
       <div className="results-card__quote-mark" aria-hidden>&ldquo;</div>
