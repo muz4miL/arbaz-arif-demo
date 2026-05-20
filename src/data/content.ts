@@ -131,18 +131,118 @@ export const clientResults = [
   },
 ];
 
-/** Marquee items for the results/testimonials section */
-export const resultsMarqueeItems = [
-  { type: "stat" as const, value: "22kg", label: "Lost", name: "Ahmed K.", plan: "Elite Plan" },
-  { type: "quote" as const, quote: "Arbaz changed my whole relationship with fitness.", name: "Ahmed K." },
-  { type: "stat" as const, value: "15kg", label: "Lost", name: "Sara R.", plan: "Premium Plan" },
-  { type: "quote" as const, quote: "The meal plans were realistic — I actually enjoyed eating.", name: "Sara R." },
-  { type: "stat" as const, value: "+8kg", label: "Muscle", name: "Usman M.", plan: "Starter Plan" },
-  { type: "quote" as const, quote: "My lifts went through the roof. Programming is elite.", name: "Usman M." },
-  { type: "stat" as const, value: "18kg", label: "Lost", name: "Fatima H.", plan: "Premium Plan" },
-  { type: "quote" as const, quote: "Having Arbaz in my corner kept me accountable.", name: "Fatima H." },
-  { type: "stat" as const, value: "20kg", label: "Lost", name: "Naveed M.", plan: "Elite Plan" },
-  { type: "quote" as const, quote: "Best investment I've made for my health.", name: "Zain A." },
+/** Real client stories — stats, voice notes, and written testimonials for the results marquee */
+export type ResultsMarqueeItem =
+  | { type: "stat"; value: string; label: string; name: string; plan: string }
+  | { type: "quote"; quote: string; name: string; location: string; plan: string }
+  | {
+      type: "voice";
+      name: string;
+      plan: string;
+      location: string;
+      duration: string;
+      durationSec: number;
+      transcript: string;
+      audioSrc: string;
+    };
+
+export const resultsMarqueeItems: ResultsMarqueeItem[] = [
+  { type: "stat", value: "22kg", label: "Lost", name: "Ahmed K.", plan: "Elite Plan" },
+  {
+    type: "voice",
+    name: "Ahmed K.",
+    plan: "Elite Plan",
+    location: "Karachi, PK",
+    duration: "0:38",
+    durationSec: 38,
+    transcript:
+      "Assalam o Alaikum — I lost 22 kilos in four months. Arbaz never let me skip check-ins. Honestly the best decision I made for my health.",
+    audioSrc: "/voice-notes/ahmed-k.mp3",
+  },
+  {
+    type: "quote",
+    quote:
+      "I never thought I could look like this at 34. Arbaz changed my whole relationship with fitness — it's a lifestyle now.",
+    name: "Ahmed K.",
+    location: "Karachi, PK",
+    plan: "Elite Plan",
+  },
+  { type: "stat", value: "15kg", label: "Lost", name: "Sara R.", plan: "Premium Plan" },
+  {
+    type: "voice",
+    name: "Sara R.",
+    plan: "Premium Plan",
+    location: "Lahore, PK",
+    duration: "0:42",
+    durationSec: 42,
+    transcript:
+      "I was skeptical about online coaching, but lost 15kg in three months. The meal plans were realistic — I actually enjoyed eating.",
+    audioSrc: "/voice-notes/sara-r.mp3",
+  },
+  {
+    type: "quote",
+    quote: "The meal plans were realistic — I actually enjoyed eating. Completely changed my body.",
+    name: "Sara R.",
+    location: "Lahore, PK",
+    plan: "Premium Plan",
+  },
+  { type: "stat", value: "+8kg", label: "Muscle", name: "Usman M.", plan: "Starter Plan" },
+  {
+    type: "voice",
+    name: "Usman M.",
+    plan: "Starter Plan",
+    location: "Islamabad, PK",
+    duration: "0:35",
+    durationSec: 35,
+    transcript:
+      "Gained 8kg of muscle in four months. My bench and squat went up every single week — Arbaz's programming is actually elite.",
+    audioSrc: "/voice-notes/usman-m.mp3",
+  },
+  {
+    type: "quote",
+    quote: "My lifts went through the roof. Programming is elite — worth every rupee.",
+    name: "Usman M.",
+    location: "Islamabad, PK",
+    plan: "Starter Plan",
+  },
+  { type: "stat", value: "18kg", label: "Lost", name: "Fatima H.", plan: "Premium Plan" },
+  {
+    type: "voice",
+    name: "Fatima H.",
+    plan: "Premium Plan",
+    location: "Karachi, PK",
+    duration: "0:31",
+    durationSec: 31,
+    transcript:
+      "The WhatsApp support alone is worth everything. Having Arbaz in my corner kept me accountable every single week.",
+    audioSrc: "/voice-notes/fatima-h.mp3",
+  },
+  {
+    type: "quote",
+    quote: "Having Arbaz in my corner kept me accountable. Lost 18kg without feeling deprived.",
+    name: "Fatima H.",
+    location: "Karachi, PK",
+    plan: "Premium Plan",
+  },
+  { type: "stat", value: "20kg", label: "Lost", name: "Naveed M.", plan: "Elite Plan" },
+  {
+    type: "voice",
+    name: "Naveed M.",
+    plan: "Elite Plan",
+    location: "Dubai, UAE",
+    duration: "0:44",
+    durationSec: 44,
+    transcript:
+      "I'm based in Dubai — lost 20kg in five months and finally learned how to eat properly. Results speak for themselves.",
+    audioSrc: "/voice-notes/naveed-m.mp3",
+  },
+  {
+    type: "quote",
+    quote: "Best investment I've made for my health. Lost 20kg while living in Dubai.",
+    name: "Zain A.",
+    location: "Lahore, PK",
+    plan: "Premium Plan",
+  },
 ];
 
 export const testimonials = [

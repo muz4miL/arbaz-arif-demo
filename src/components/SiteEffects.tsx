@@ -299,7 +299,7 @@ export function SiteEffects() {
         <div className="pre-bar">
           <div className="pre-fill" id="preFill" />
         </div>
-        <div className="pre-label">Loading Experience</div>
+        <div className="pre-label">Arbaz Arif Fitness Programs</div>
       </div>
     </div>,
     document.body,
