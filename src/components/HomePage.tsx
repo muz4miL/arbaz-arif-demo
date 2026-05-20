@@ -23,9 +23,9 @@ export function HomePage() {
         <Hero />
         <Marquee />
         <MethodSection />
+        <ResultsSection />
         <PlansSection />
         <PrestigeSection />
-        <ResultsSection />
         <ProcessSection />
         <SubscribeSection />
         <CtaSection />

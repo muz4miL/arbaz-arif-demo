@@ -67,6 +67,19 @@ export const processSteps = [
   },
 ];
 
+/** Portrait + initials keyed by display name (results marquee & cards) */
+export const clientAvatars: Record<string, { image: string; initials: string }> = {
+  "Ahmed K.": { image: "/clients/ahmed-k.jpg", initials: "AK" },
+  "Sara R.": { image: "/clients/sara-r.jpg", initials: "SR" },
+  "Usman M.": { image: "/clients/usman-m.jpg", initials: "UM" },
+  "Fatima H.": { image: "/clients/fatima-h.jpg", initials: "FH" },
+  "Naveed M.": { image: "/clients/naveed-m.jpg", initials: "NM" },
+  "Zain A.": { image: "/clients/zain-a.jpg", initials: "ZA" },
+  "Zain Abbas": { image: "/clients/zain-a.jpg", initials: "ZA" },
+  "M. Naveed": { image: "/clients/naveed-m.jpg", initials: "MN" },
+  "Hira Asif": { image: "/clients/hira-a.jpg", initials: "HA" },
+};
+
 export const clientResults = [
   {
     name: "Ahmed K.",
@@ -78,7 +91,7 @@ export const clientResults = [
       { value: "22kg", label: "Lost" },
       { value: "16wk", label: "Duration" },
     ],
-    image: "https://randomuser.me/api/portraits/men/51.jpg",
+    image: clientAvatars["Ahmed K."].image,
   },
   {
     name: "Sara R.",
@@ -90,7 +103,7 @@ export const clientResults = [
       { value: "15kg", label: "Lost" },
       { value: "12wk", label: "Duration" },
     ],
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    image: clientAvatars["Sara R."].image,
   },
   {
     name: "Usman M.",
@@ -102,7 +115,7 @@ export const clientResults = [
       { value: "+8kg", label: "Muscle" },
       { value: "16wk", label: "Duration" },
     ],
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    image: clientAvatars["Usman M."].image,
   },
   {
     name: "Fatima H.",
@@ -114,7 +127,7 @@ export const clientResults = [
       { value: "18kg", label: "Lost" },
       { value: "20wk", label: "Duration" },
     ],
-    image: "https://randomuser.me/api/portraits/women/17.jpg",
+    image: clientAvatars["Fatima H."].image,
   },
 ];
 
@@ -138,6 +151,7 @@ export const testimonials = [
       "Honestly the best investment I've made for my health. In 3 months I went from embarrassed to take my shirt off to genuinely proud of how I look.",
     name: "Zain Abbas",
     initials: "ZA",
+    image: clientAvatars["Zain Abbas"].image,
     location: "Lahore, PK",
   },
   {
@@ -145,6 +159,7 @@ export const testimonials = [
       "I'm based in Dubai and was skeptical about online coaching but the results speak for themselves. Lost 20kg in 5 months and learned how to eat properly.",
     name: "M. Naveed",
     initials: "MN",
+    image: clientAvatars["M. Naveed"].image,
     location: "Dubai, UAE",
   },
   {
@@ -152,6 +167,7 @@ export const testimonials = [
       "The level of personalization is insane. He actually read my food preferences, my schedule, my gym equipment and built the plan around ME. Not some generic template.",
     name: "Hira Asif",
     initials: "HA",
+    image: clientAvatars["Hira Asif"].image,
     location: "Karachi, PK",
   },
 ];

@@ -8,7 +8,11 @@ export function getOrganizationJsonLd() {
     jobTitle: "Elite Fitness Coach",
     description: siteConfig.description,
     url: siteConfig.url,
-    sameAs: [siteConfig.instagram.url],
+    sameAs: [
+      siteConfig.instagram.url,
+      siteConfig.tiktok.url,
+      siteConfig.youtube.url,
+    ],
     knowsAbout: [
       "Online fitness coaching",
       "Body recomposition",

@@ -512,6 +512,132 @@ section {
    box-shadow: 0 20px 60px rgba(0, 0, 0, .5), 0 0 40px rgba(200, 255, 0, .03)
 }
 
+/* Client avatars — results marquee & testimonial cards */
+.result-avatar {
+   width: 48px;
+   height: 48px;
+   border-radius: 50%;
+   margin-bottom: 16px;
+   overflow: hidden;
+   position: relative;
+   border: 2px solid var(--border2);
+   background: var(--bg2);
+   flex-shrink: 0
+}
+
+.result-avatar img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   display: block
+}
+
+.result-avatar .initials {
+   position: absolute;
+   inset: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-family: var(--font-bebas), sans-serif;
+   font-size: 16px;
+   color: var(--lime);
+   background: var(--bg2);
+   pointer-events: none
+}
+
+.result-avatar img.loaded+.initials {
+   display: none
+}
+
+.result-client-row {
+   display: flex;
+   align-items: center;
+   gap: 12px
+}
+
+.result-client-row .result-avatar {
+   margin-bottom: 0
+}
+
+.testi-footer .result-avatar {
+   margin-bottom: 0
+}
+
+/* Testimonials grid */
+.testi-section {
+   padding: 80px 0;
+   background: var(--bg2);
+   border-top: 1px solid var(--border);
+   border-bottom: 1px solid var(--border)
+}
+
+.testi-grid {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 16px;
+   margin-top: 40px
+}
+
+.testi-card {
+   background: var(--bg3);
+   border: 1px solid var(--border);
+   border-radius: 20px;
+   padding: 28px;
+   position: relative;
+   transition: all .5s var(--ease)
+}
+
+.testi-card:hover {
+   border-color: var(--border2);
+   background: var(--bg4);
+   transform: translateY(-4px)
+}
+
+.testi-mark {
+   font-family: var(--font-bebas), sans-serif;
+   font-size: 72px;
+   line-height: .7;
+   color: var(--lime);
+   opacity: .25;
+   margin-bottom: 16px
+}
+
+.testi-text {
+   font-size: 14px;
+   font-weight: 400;
+   line-height: 1.8;
+   color: var(--text2);
+   font-style: italic;
+   margin-bottom: 28px
+}
+
+.testi-footer {
+   display: flex;
+   align-items: center;
+   gap: 14px;
+   padding-top: 24px;
+   border-top: 1px solid var(--border)
+}
+
+.testi-name {
+   font-family: var(--font-space), sans-serif;
+   font-size: 14px;
+   font-weight: 600;
+   font-style: normal
+}
+
+.testi-info {
+   font-size: 11px;
+   color: var(--text4);
+   letter-spacing: .05em
+}
+
+@media (max-width: 900px) {
+   .testi-grid {
+      grid-template-columns: 1fr
+   }
+}
+
 /* Plan CTA button — outlined with fill-up hover */
 .plan-cta-link {
    display: flex;

@@ -13,8 +13,17 @@ export const siteConfig = {
     handle: "@arbazxarif_coaching",
     url: "https://www.instagram.com/arbazxarif_coaching/",
   },
-  /** E.164 without + — replace when you have the real number */
-  whatsappNumber: "923001234567",
+  tiktok: {
+    handle: "@arbazxarif",
+    url: "https://www.tiktok.com/@arbazxarif",
+  },
+  youtube: {
+    handle: "Arbaz Arif",
+    url: "https://www.youtube.com/@ArbazArif",
+  },
+  /** E.164 without + */
+  whatsappNumber: "13073925968",
+  whatsappDisplay: "+1 307 392 5968",
   email: "hello@arbazarif.com",
   copyrightYear: 2025,
 } as const;
@@ -133,8 +142,12 @@ export const prestigeCard = [
 
 export function whatsappUrl(message: string): string {
   const encoded = encodeURIComponent(message);
-  return `https://wa.me/${siteConfig.whatsappNumber}?text=${encoded}`;
+  return `https://api.whatsapp.com/send/?phone=${siteConfig.whatsappNumber}&text=${encoded}&type=phone_number&app_absent=0`;
 }
+
+/** Footer Connect — opens WhatsApp with the Prestige Plan intro message */
+export const whatsappFooterUrl =
+  "https://api.whatsapp.com/send/?phone=13073925968&text=Hi+Arbaz%2C+I+want+to+buy+your+Prestige+Plan&type=phone_number&app_absent=0";
 
 export function planWhatsAppUrl(planName: string): string {
   return whatsappUrl(`Hi Arbaz, I'm interested in the ${planName}`);

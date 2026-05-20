@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
 /* ─────────────────────────────────────────────
-   SVG ICONS — hand-crafted, 24×24 viewport
+   SVG ICONS
 ───────────────────────────────────────────── */
 function IconYears() {
   return (
@@ -63,10 +63,10 @@ function IconOnline() {
 }
 
 const STATS = [
-  { value: "10+", label: "Years of Experience", Icon: IconYears },
-  { value: "500+", label: "Transformations", Icon: IconTransformations },
-  { value: "Certified", label: "Trainer & Nutrition", Icon: IconCertified },
-  { value: "Online", label: "Coaching Worldwide", Icon: IconOnline },
+  { value: "10+", numeric: 10, suffix: "+", label: "Years of Experience", Icon: IconYears },
+  { value: "500+", numeric: 500, suffix: "+", label: "Transformations", Icon: IconTransformations },
+  { value: "Certified", numeric: null, suffix: "", label: "Trainer & Nutrition", Icon: IconCertified },
+  { value: "Online", numeric: null, suffix: "", label: "Coaching Worldwide", Icon: IconOnline },
 ] as const;
 
 const HEADLINE_LINES: { words: { text: string; accent?: boolean }[] }[] = [
@@ -78,7 +78,7 @@ const HEADLINE_LINES: { words: { text: string; accent?: boolean }[] }[] = [
 const GRAIN_BG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
 /* ─────────────────────────────────────────────
-   MASKED WORD — Y-only clip for italic safety
+   MASKED WORD
 ───────────────────────────────────────────── */
 function MaskedWord({ text, accent }: { text: string; accent?: boolean }) {
   return (
@@ -102,6 +102,35 @@ function MaskedWord({ text, accent }: { text: string; accent?: boolean }) {
       </span>
     </span>
   );
+}
+
+/* ─────────────────────────────────────────────
+   STAT COUNTER — animates from 0
+───────────────────────────────────────────── */
+function StatCounter({ value, numeric, suffix }: { value: string; numeric: number | null; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useGSAP(() => {
+    if (!ref.current || numeric === null) return;
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: numeric,
+      duration: 2,
+      ease: "power2.out",
+      delay: 1.2,
+      onUpdate: () => {
+        if (ref.current) {
+          ref.current.textContent = Math.round(obj.val) + suffix;
+        }
+      },
+    });
+  }, { scope: ref });
+
+  if (numeric === null) {
+    return <span>{value}</span>;
+  }
+
+  return <span ref={ref}>0{suffix}</span>;
 }
 
 /* ─────────────────────────────────────────────
@@ -162,15 +191,18 @@ export function Hero() {
           { filter: "brightness(1) saturate(1)", duration: 1.8, ease: "power2.out" }, 0.4);
       }
 
-      gsap.set(words, { yPercent: 115, rotate: 4, skewX: 3 });
+      gsap.set(words, { yPercent: 110 });
       mount.to(words, {
         yPercent: 0,
-        rotate: 0,
-        skewX: 0,
-        duration: 1.2,
-        stagger: 0.06,
+        duration: 1.1,
+        stagger: 0.05,
         ease: "expo.out",
       }, 0.2);
+
+      mount.eventCallback("onComplete", () => {
+        gsap.set(words, { clearProps: "transform" });
+        ScrollTrigger.refresh();
+      });
 
       gsap.set(textBlocks, { y: 28, opacity: 0, filter: "blur(5px)" });
       mount.to(textBlocks, {
@@ -290,7 +322,7 @@ export function Hero() {
           {/* ── LEFT: Copy ── */}
           <div
             ref={contentRef}
-            className="relative z-20 flex w-full flex-col justify-center
+            className="relative z-20 flex w-full flex-col justify-center items-start
                        px-6 pb-8 pt-28
                        sm:px-8
                        lg:w-[50%] lg:px-16 lg:pb-44 lg:pt-[128px]
@@ -310,7 +342,6 @@ export function Hero() {
               </p>
             </div>
 
-            {/* HEADLINE — scaled down per spec */}
             <h1
               className="font-black uppercase italic leading-[0.93] tracking-[-0.02em]
                          text-[clamp(2.2rem,4.5vw,3.8rem)]"
@@ -329,41 +360,34 @@ export function Hero() {
               ))}
             </h1>
 
-            {/* Sub-headline */}
+            {/* Sub-headline — ONE powerful line only */}
             <p
               data-hero-fade
-              className="mt-9 max-w-[22rem] text-[0.92rem] font-semibold leading-relaxed
+              className="mt-8 max-w-[22rem] text-[0.92rem] font-semibold leading-relaxed
                          tracking-wide text-[#c2c2c2]"
-            >
-              Science-backed coaching for serious transformations.
-            </p>
-
-            {/* Body copy */}
-            <p
-              data-hero-fade
-              className="mt-4 max-w-[22rem] text-[0.88rem] leading-[1.95] text-[#555]
-                         lg:max-w-[24rem] lg:text-[0.9rem]"
             >
               Pakistan&apos;s{" "}
               <span className="font-semibold text-[#c8ff00]">
                 most trusted online fitness coach
               </span>{" "}
-              — 500+ transformations across Pakistan, UAE, and the UK. Elite
-              programming built for real life, so you{" "}
-              <span className="font-semibold text-[#c8ff00]">keep your results</span>.
+              — 500+ transformations across Pakistan, UAE, and the UK.
             </p>
 
-            {/* CTAs */}
-            <div data-hero-fade className="mt-10 flex items-center gap-6">
+            {/* CTAs — match navbar clip-path style */}
+            <div data-hero-fade className="mt-10 flex items-center gap-5">
               <Link
                 href="#plans"
                 className="group inline-flex items-center gap-3
-                           bg-[#c8ff00] px-7 py-[0.85rem]
+                           bg-[#c8ff00] px-7 py-3.5
                            text-[10px] font-black uppercase tracking-[0.18em] text-black
+                           clip-path-cta
                            transition-all duration-300
                            hover:bg-white hover:shadow-[0_0_60px_rgba(200,255,0,0.18)]"
+                style={{
+                  clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))"
+                }}
               >
-                Start Your Transformation
+                Start Now
                 <span
                   aria-hidden
                   className="inline-block transition-transform duration-300 group-hover:translate-x-1.5"
@@ -373,10 +397,18 @@ export function Hero() {
               </Link>
               <Link
                 href="#results"
-                className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#3a3a3a]
-                           transition-colors duration-200 hover:text-[#c8ff00]"
+                className="group relative inline-flex items-center gap-2
+                           text-[10px] font-bold uppercase tracking-[0.18em] text-[#555]
+                           transition-colors duration-200 hover:text-white"
               >
-                See Results
+                <span className="relative">
+                  See Results
+                  <span
+                    className="absolute -bottom-1 left-0 h-px w-0 bg-[#c8ff00]
+                               transition-all duration-300 group-hover:w-full"
+                    aria-hidden
+                  />
+                </span>
               </Link>
             </div>
 
@@ -398,7 +430,7 @@ export function Hero() {
             </div>
           </div>
 
-          {/* ── RIGHT: Image (50%) ── */}
+          {/* ── RIGHT: Image (arbaz3.png) ── */}
           <div
             ref={imageColRef}
             className="relative hidden lg:block lg:h-screen lg:w-[50%] lg:shrink-0"
@@ -409,9 +441,9 @@ export function Hero() {
               className="absolute inset-0"
               style={{
                 WebkitMaskImage:
-                  "radial-gradient(ellipse 88% 98% at 62% 42%, #000 32%, transparent 70%)",
+                  "radial-gradient(ellipse 95% 100% at 78% 45%, #000 40%, transparent 75%)",
                 maskImage:
-                  "radial-gradient(ellipse 88% 98% at 62% 42%, #000 32%, transparent 70%)",
+                  "radial-gradient(ellipse 95% 100% at 78% 45%, #000 40%, transparent 75%)",
               }}
             >
               <div
@@ -420,35 +452,35 @@ export function Hero() {
                 style={{ inset: "-10% 0 0 0" }}
               >
                 <Image
-                  src="/arbaz1.png"
+                  src="/arbaz3.png"
                   alt="Arbaz Arif — elite online fitness coach"
                   fill
                   priority
                   sizes="50vw"
                   className={`object-cover transition-opacity duration-700 ${imgReady ? "opacity-100" : "opacity-0"
                     }`}
-                  style={{ objectPosition: "50% 12%" }}
+                  style={{ objectPosition: "85% 45%" }}
                   onLoad={() => setImgReady(true)}
                 />
               </div>
             </div>
 
-            {/* Left vignette */}
+            {/* Left vignette — gentle */}
             <div
               className="pointer-events-none absolute inset-0 z-10"
               style={{
                 background:
-                  "linear-gradient(100deg, rgba(8,8,8,1) 0%, rgba(8,8,8,0.65) 20%, rgba(8,8,8,0.1) 48%, transparent 65%)",
+                  "linear-gradient(100deg, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.5) 15%, rgba(8,8,8,0.1) 35%, transparent 55%)",
               }}
               aria-hidden
             />
 
-            {/* Top vignette */}
+            {/* Top vignette — stronger to keep navbar clean */}
             <div
-              className="pointer-events-none absolute inset-x-0 top-0 z-10 h-32"
+              className="pointer-events-none absolute inset-x-0 top-0 z-10 h-44"
               style={{
                 background:
-                  "linear-gradient(to bottom, rgba(8,8,8,0.85) 0%, transparent 100%)",
+                  "linear-gradient(to bottom, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.5) 40%, transparent 100%)",
               }}
               aria-hidden
             />
@@ -468,41 +500,41 @@ export function Hero() {
               className="pointer-events-none absolute inset-0 z-[5]"
               style={{
                 background:
-                  "radial-gradient(ellipse 35% 30% at 68% 55%, rgba(200,255,0,0.05) 0%, transparent 70%)",
+                  "radial-gradient(ellipse 35% 30% at 70% 50%, rgba(200,255,0,0.06) 0%, transparent 70%)",
               }}
               aria-hidden
             />
           </div>
         </div>
 
-        {/* ── STATS PANEL — desktop ── */}
+        {/* ── STATS PANEL — centered, glass, animated ── */}
         <div
           ref={statsRef}
-          className="absolute bottom-8 z-30 hidden lg:flex"
-          style={{ left: "clamp(2rem, 4vw, 6rem)" }}
+          className="absolute bottom-10 z-30 hidden lg:flex"
+          style={{ left: "50%", transform: "translateX(-50%)" }}
           role="group"
           aria-label="Coach credentials"
         >
           <div
             className="flex items-stretch overflow-hidden rounded-2xl
-                       border border-white/[0.07]
-                       bg-[rgba(8,8,8,0.8)]
-                       shadow-[0_16px_64px_rgba(0,0,0,0.7)]
-                       backdrop-blur-2xl"
+                       border border-white/[0.1]
+                       bg-gradient-to-b from-white/[0.06] to-white/[0.02]
+                       shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]
+                       backdrop-blur-xl"
           >
             {STATS.map((stat, i) => (
               <div
                 key={stat.label}
-                className={`flex min-w-[122px] flex-col justify-center gap-[7px] px-6 py-5 ${i < STATS.length - 1 ? "border-r border-white/[0.06]" : ""
+                className={`flex min-w-[140px] flex-col justify-center gap-[6px] px-7 py-5 ${i < STATS.length - 1 ? "border-r border-white/[0.06]" : ""
                   }`}
               >
-                <span className="text-[#c8ff00]/55">
+                <span className="text-[#c8ff00]/70">
                   <stat.Icon />
                 </span>
-                <p className="text-[1.1rem] font-black leading-none tracking-tight text-white">
-                  {stat.value}
+                <p className="text-[1.15rem] font-black leading-none tracking-tight text-white">
+                  <StatCounter value={stat.value} numeric={stat.numeric} suffix={stat.suffix} />
                 </p>
-                <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-[#383838]">
+                <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#aaa] whitespace-nowrap">
                   {stat.label}
                 </p>
               </div>
@@ -511,27 +543,35 @@ export function Hero() {
         </div>
       </div>
 
-      {/* ── MOBILE: image ── */}
+      {/* ── MOBILE: image (arbaz3.png) ── */}
       <div
         className="hero-mobile-media relative z-0 w-full overflow-hidden lg:hidden
-                   h-[68vw] min-h-[280px] max-h-[420px]"
+                   h-[78vw] min-h-[320px] max-h-[520px]"
       >
         <Image
-          src="/arbaz1.png"
+          src="/arbaz3.png"
           alt="Arbaz Arif — elite online fitness coach"
           fill
           priority
           sizes="100vw"
           className={`object-cover transition-opacity duration-700 ${imgReady ? "opacity-100" : "opacity-0"
             }`}
-          style={{ objectPosition: "50% 8%" }}
+          style={{ objectPosition: "85% 30%" }}
           onLoad={() => setImgReady(true)}
         />
         <div
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-x-0 top-0 h-48"
           style={{
             background:
-              "linear-gradient(to top, rgba(8,8,8,1) 0%, rgba(8,8,8,0.15) 60%, transparent 100%)",
+              "linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.6) 50%, transparent 100%)",
+          }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(8,8,8,1) 0%, rgba(8,8,8,0.5) 50%, transparent 100%)",
           }}
           aria-hidden
         />
@@ -541,10 +581,10 @@ export function Hero() {
       <div
         ref={statsMobileRef}
         className="relative z-20 mx-5 mb-14 mt-5 overflow-hidden rounded-2xl
-                   border border-white/[0.07]
-                   bg-[rgba(8,8,8,0.88)]
-                   shadow-[0_16px_64px_rgba(0,0,0,0.6)]
-                   backdrop-blur-2xl
+                   border border-white/[0.1]
+                   bg-gradient-to-b from-white/[0.06] to-white/[0.02]
+                   shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]
+                   backdrop-blur-xl
                    lg:hidden"
       >
         <ul className="grid grid-cols-2">
@@ -555,11 +595,13 @@ export function Hero() {
                 ${i % 2 === 0 ? "border-r border-white/[0.06]" : ""}
                 ${i < 2 ? "border-b border-white/[0.06]" : ""}`}
             >
-              <span className="text-[#c8ff00]/55">
+              <span className="text-[#c8ff00]/70">
                 <stat.Icon />
               </span>
-              <p className="text-[1rem] font-black tracking-tight text-white">{stat.value}</p>
-              <p className="text-[8px] font-bold uppercase tracking-[0.18em] text-[#383838]">
+              <p className="text-[1rem] font-black tracking-tight text-white">
+                <StatCounter value={stat.value} numeric={stat.numeric} suffix={stat.suffix} />
+              </p>
+              <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#aaa]">
                 {stat.label}
               </p>
             </li>

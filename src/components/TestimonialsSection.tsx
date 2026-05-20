@@ -1,4 +1,5 @@
 import { testimonials } from "@/data/content";
+import { ResultAvatar } from "./ResultAvatar";
 
 export function TestimonialsSection() {
   return (
@@ -26,9 +27,11 @@ export function TestimonialsSection() {
               </div>
               <blockquote className="testi-text">&ldquo;{t.quote}&rdquo;</blockquote>
               <footer className="testi-footer">
-                <div className="testi-avatar" aria-hidden>
-                  {t.initials}
-                </div>
+                <ResultAvatar
+                  src={t.image}
+                  alt={`${t.name} — client testimonial`}
+                  initials={t.initials}
+                />
                 <div>
                   <cite className="testi-name">{t.name}</cite>
                   <p className="testi-info">{t.location}</p>

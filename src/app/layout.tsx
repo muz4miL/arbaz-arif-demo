@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import {
   Bebas_Neue,
   Inter,
@@ -131,8 +132,9 @@ export default function RootLayout({
       className={`${inter.variable} ${bebas.variable} ${spaceGrotesk.variable} ${jetbrains.variable}`}
     >
       <body suppressHydrationWarning>
-        <script
+        <Script
           id="strip-extension-attrs"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: STRIP_EXTENSION_ATTRS_SCRIPT }}
         />
         {jsonLd.map((schema) => (

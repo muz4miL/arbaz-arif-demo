@@ -1,6 +1,19 @@
 import Link from "next/link";
-import { resultsMarqueeItems } from "@/data/content";
+import { clientAvatars, resultsMarqueeItems } from "@/data/content";
 import { whatsappUrl } from "@/config/site";
+import { ResultAvatar } from "./ResultAvatar";
+
+function ClientAvatar({ name }: { name: string }) {
+  const client = clientAvatars[name];
+  if (!client) return null;
+  return (
+    <ResultAvatar
+      src={client.image}
+      alt={`${name} — client transformation`}
+      initials={client.initials}
+    />
+  );
+}
 
 function StatCard({ item }: { item: { value: string; label: string; name: string; plan: string } }) {
   return (
@@ -23,14 +36,17 @@ function StatCard({ item }: { item: { value: string; label: string; name: string
       }}>
         {item.label}
       </p>
-      <div style={{ paddingTop: 12, borderTop: "1px solid var(--border)" }}>
-        <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{item.name}</p>
-        <p style={{
-          fontFamily: "var(--font-mono), monospace", fontSize: 9,
-          letterSpacing: "0.1em", color: "var(--lime)", marginTop: 2,
-        }}>
-          {item.plan}
-        </p>
+      <div style={{ paddingTop: 12, borderTop: "1px solid var(--border)" }} className="result-client-row">
+        <ClientAvatar name={item.name} />
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{item.name}</p>
+          <p style={{
+            fontFamily: "var(--font-mono), monospace", fontSize: 9,
+            letterSpacing: "0.1em", color: "var(--lime)", marginTop: 2,
+          }}>
+            {item.plan}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -55,7 +71,10 @@ function QuoteCard({ item }: { item: { quote: string; name: string } }) {
       }}>
         &ldquo;{item.quote}&rdquo;
       </blockquote>
-      <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{item.name}</p>
+      <div className="result-client-row" style={{ paddingTop: 12, borderTop: "1px solid var(--border)" }}>
+        <ClientAvatar name={item.name} />
+        <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{item.name}</p>
+      </div>
     </div>
   );
 }
