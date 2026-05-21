@@ -99,8 +99,8 @@ export function SubscribeSection() {
 
   return (
     <section
-      id="contact"
-      aria-labelledby="contact-heading"
+      id="subscribe"
+      aria-labelledby="subscribe-heading"
       style={{
         padding: "120px 0",
         background: "var(--bg)",
@@ -214,7 +214,7 @@ export function SubscribeSection() {
             <div className="subscribe-left">
               {/* Heading */}
               <h2
-                id="contact-heading"
+                id="subscribe-heading"
                 style={{
                   fontFamily: "var(--font-space), sans-serif",
                   fontSize: "clamp(2.6rem, 4.5vw, 4.2rem)",

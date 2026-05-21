@@ -41,7 +41,7 @@ const socials = [
   { label: "YouTube", href: siteConfig.youtube.url, icon: <IconYouTube />, handle: siteConfig.youtube.handle },
 ];
 
-const footerNavLinks = [...navLinks, { href: "#contact", label: "Contact" }];
+const footerNavLinks = [...navLinks, { href: "#subscribe", label: "Contact" }];
 
 export function Footer() {
   return (
@@ -78,7 +78,7 @@ export function Footer() {
             </p>
             {/* Mini CTA pill */}
             <Link
-              href="#contact"
+              href="#subscribe"
               style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px", borderRadius: 100, border: "1px solid rgba(200,255,0,0.2)", background: "rgba(200,255,0,0.05)", textDecoration: "none", transition: "all 0.3s" }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(200,255,0,0.12)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(200,255,0,0.4)"; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(200,255,0,0.05)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(200,255,0,0.2)"; }}

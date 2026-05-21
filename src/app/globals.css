@@ -1452,6 +1452,32 @@ footer {
    border: 0
 }
 
+.skip-link {
+   position: absolute;
+   left: -9999px;
+   top: auto;
+   width: 1px;
+   height: 1px;
+   overflow: hidden;
+   z-index: 200;
+   padding: 12px 20px;
+   background: var(--lime);
+   color: #000;
+   font-family: var(--font-inter), sans-serif;
+   font-size: 12px;
+   font-weight: 700;
+   text-decoration: none;
+   border-radius: 8px
+}
+
+.skip-link:focus {
+   left: 16px;
+   top: 16px;
+   width: auto;
+   height: auto;
+   overflow: visible
+}
+
 .client-gate-placeholder {
    min-height: 100vh;
    background: var(--bg)
