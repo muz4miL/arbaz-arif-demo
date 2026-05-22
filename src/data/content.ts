@@ -157,7 +157,7 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     durationSec: 38,
     transcript:
       "Assalam o Alaikum — I lost 22 kilos in four months. Arbaz never let me skip check-ins. Honestly the best decision I made for my health.",
-    audioSrc: "/voice-notes/ahmed-k.mp3",
+    audioSrc: "/audios/1.mp3",
   },
   {
     type: "quote",
@@ -166,25 +166,6 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     name: "Ahmed K.",
     location: "Karachi, PK",
     plan: "Elite Plan",
-  },
-  { type: "stat", value: "15kg", label: "Lost", name: "Sara R.", plan: "Premium Plan" },
-  {
-    type: "voice",
-    name: "Sara R.",
-    plan: "Premium Plan",
-    location: "Lahore, PK",
-    duration: "0:42",
-    durationSec: 42,
-    transcript:
-      "I was skeptical about online coaching, but lost 15kg in three months. The meal plans were realistic — I actually enjoyed eating.",
-    audioSrc: "/voice-notes/sara-r.mp3",
-  },
-  {
-    type: "quote",
-    quote: "The meal plans were realistic — I actually enjoyed eating. Completely changed my body.",
-    name: "Sara R.",
-    location: "Lahore, PK",
-    plan: "Premium Plan",
   },
   { type: "stat", value: "+8kg", label: "Muscle", name: "Usman M.", plan: "Starter Plan" },
   {
@@ -196,7 +177,7 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     durationSec: 35,
     transcript:
       "Gained 8kg of muscle in four months. My bench and squat went up every single week — Arbaz's programming is actually elite.",
-    audioSrc: "/voice-notes/usman-m.mp3",
+    audioSrc: "/audios/4(1).mp3",
   },
   {
     type: "quote",
@@ -215,7 +196,7 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     durationSec: 31,
     transcript:
       "The WhatsApp support alone is worth everything. Having Arbaz in my corner kept me accountable every single week.",
-    audioSrc: "/voice-notes/fatima-h.mp3",
+    audioSrc: "/audios/2.mp3",
   },
   {
     type: "quote",
@@ -234,7 +215,7 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     durationSec: 44,
     transcript:
       "I'm based in Dubai — lost 20kg in five months and finally learned how to eat properly. Results speak for themselves.",
-    audioSrc: "/voice-notes/naveed-m.mp3",
+    audioSrc: "/audios/3.mp3",
   },
   {
     type: "quote",

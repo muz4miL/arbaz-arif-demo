@@ -5,13 +5,25 @@ import { ResultAvatar } from "./ResultAvatar";
 import { clientAvatars } from "@/data/content";
 
 let activeAudio: HTMLAudioElement | null = null;
+let activeOnPlayingChange: ((playing: boolean) => void) | null = null;
 
-function stopActiveAudio() {
+function stopActiveAudio(notify = true) {
   if (activeAudio) {
     activeAudio.pause();
     activeAudio.currentTime = 0;
     activeAudio = null;
   }
+  if (notify && activeOnPlayingChange) {
+    activeOnPlayingChange(false);
+    activeOnPlayingChange = null;
+  }
+}
+
+function formatDuration(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds <= 0) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
 const WAVE_HEIGHTS = [4, 7, 11, 8, 14, 10, 16, 12, 18, 14, 10, 16, 8, 12, 6, 14, 9, 17, 11, 7, 13, 8, 15, 10];
@@ -23,23 +35,32 @@ type VoiceNotePlayerProps = {
   duration: string;
   transcript: string;
   audioSrc: string;
+  onPlayingChange?: (playing: boolean) => void;
 };
 
 export function VoiceNoteCard({
   name,
   plan,
   location,
-  duration,
+  duration: durationFallback,
   transcript,
   audioSrc,
+  onPlayingChange,
 }: VoiceNotePlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [audioReady, setAudioReady] = useState(false);
+  const [durationLabel, setDurationLabel] = useState(durationFallback);
   const [expanded, setExpanded] = useState(false);
   const labelId = useId();
   const client = clientAvatars[name];
+
+  const notifyPlaying = useCallback(
+    (isPlaying: boolean) => {
+      onPlayingChange?.(isPlaying);
+    },
+    [onPlayingChange],
+  );
 
   const togglePlay = useCallback(() => {
     const audio = audioRef.current;
@@ -47,29 +68,45 @@ export function VoiceNoteCard({
 
     if (playing) {
       audio.pause();
-      if (activeAudio === audio) activeAudio = null;
+      audio.currentTime = 0;
+      if (activeAudio === audio) {
+        activeAudio = null;
+        activeOnPlayingChange = null;
+      }
       setPlaying(false);
+      setProgress(0);
+      notifyPlaying(false);
       return;
     }
 
-    if (!audioReady) {
-      setExpanded(true);
-      return;
-    }
-
-    stopActiveAudio();
+    stopActiveAudio(false);
     activeAudio = audio;
-    void audio.play().then(() => setPlaying(true)).catch(() => {
+    activeOnPlayingChange = onPlayingChange ?? null;
+    notifyPlaying(true);
+
+    void audio.play().then(() => {
+      setPlaying(true);
       setExpanded(true);
+    }).catch(() => {
       setPlaying(false);
+      setExpanded(true);
+      if (activeAudio === audio) {
+        activeAudio = null;
+        activeOnPlayingChange = null;
+      }
+      notifyPlaying(false);
     });
-  }, [playing, audioReady]);
+  }, [playing, onPlayingChange, notifyPlaying]);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const onLoaded = () => setAudioReady(true);
+    const onLoaded = () => {
+      if (audio.duration && Number.isFinite(audio.duration)) {
+        setDurationLabel(formatDuration(audio.duration));
+      }
+    };
     const onTime = () => {
       if (audio.duration && Number.isFinite(audio.duration)) {
         setProgress(audio.currentTime / audio.duration);
@@ -78,43 +115,48 @@ export function VoiceNoteCard({
     const onEnd = () => {
       setPlaying(false);
       setProgress(0);
-      if (activeAudio === audio) activeAudio = null;
+      if (activeAudio === audio) {
+        activeAudio = null;
+        activeOnPlayingChange = null;
+      }
+      notifyPlaying(false);
     };
-    const onPause = () => setPlaying(false);
-    const onError = () => setAudioReady(false);
+    const onError = () => {
+      setPlaying(false);
+      if (activeAudio === audio) {
+        activeAudio = null;
+        activeOnPlayingChange = null;
+      }
+      notifyPlaying(false);
+    };
 
     audio.addEventListener("loadedmetadata", onLoaded);
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("ended", onEnd);
-    audio.addEventListener("pause", onPause);
     audio.addEventListener("error", onError);
 
     return () => {
       audio.removeEventListener("loadedmetadata", onLoaded);
       audio.removeEventListener("timeupdate", onTime);
       audio.removeEventListener("ended", onEnd);
-      audio.removeEventListener("pause", onPause);
       audio.removeEventListener("error", onError);
-      if (activeAudio === audio) activeAudio = null;
+      if (activeAudio === audio) stopActiveAudio();
     };
-  }, []);
+  }, [notifyPlaying]);
 
   return (
     <article
-      className="voice-note-card plan-card-new"
+      className={`voice-note-card plan-card-new${playing ? " is-voice-active" : ""}`}
       aria-labelledby={labelId}
     >
-      <audio ref={audioRef} preload="metadata">
-        <source src={audioSrc} type={audioSrc.endsWith(".ogg") ? "audio/ogg" : "audio/mpeg"} />
-        <source src={audioSrc.replace(/\.mp3$/i, ".ogg")} type="audio/ogg" />
-      </audio>
+      <audio ref={audioRef} preload="metadata" src={audioSrc} />
 
       <div className="voice-note-card__top">
         <span className="voice-note-card__badge">
           <span className="voice-note-card__badge-dot" aria-hidden />
           Client voice note
         </span>
-        <span className="voice-note-card__duration">{duration}</span>
+        <span className="voice-note-card__duration">{durationLabel}</span>
       </div>
 
       <div className="voice-note-card__player">
