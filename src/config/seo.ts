@@ -45,7 +45,7 @@ export const seoConfig = {
     { id: "plans", label: "Coaching Plans", path: "/#plans" },
     { id: "results", label: "Client Results", path: "/#results" },
     { id: "process", label: "Coaching Process", path: "/#process" },
-    { id: "subscribe", label: "Subscribe", path: "/#subscribe" },
+    { id: "subscribe", label: "Contact", path: "/#subscribe" },
   ] as const,
   faqs: [
     {

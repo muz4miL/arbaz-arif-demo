@@ -86,6 +86,7 @@ export function Navbar() {
         ref={navRef}
         id="mainNav"
         aria-label="Main navigation"
+        className={menuOpen ? "nav-menu-open" : undefined}
         style={{ backgroundColor: "rgba(8,8,8,0)", borderBottomColor: "rgba(255,255,255,0)" }}
       >
         <Link href="/" className="nav-logo" style={{ position: "relative", zIndex: 110 }}>
@@ -131,9 +132,18 @@ export function Navbar() {
       {/* Mobile full-screen overlay */}
       {menuOpen && (
         <div
-          className="fixed inset-0 bg-[#080808] flex flex-col items-center justify-center lg:hidden"
+          className="mobile-nav-overlay fixed inset-0 bg-[#080808] flex flex-col items-center justify-center lg:hidden"
           style={{ zIndex: 105 }}
         >
+          <button
+            type="button"
+            onClick={closeMenu}
+            className="mobile-menu-close"
+            aria-label="Close menu"
+          >
+            <span className="mobile-menu-close-line" />
+            <span className="mobile-menu-close-line" />
+          </button>
           <ul className="flex flex-col items-center gap-8 list-none">
             {navLinks.map((link) => (
               <li key={link.href} className="mobile-nav-link" style={{ opacity: 0 }}>

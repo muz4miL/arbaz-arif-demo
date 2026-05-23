@@ -196,7 +196,7 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     durationSec: 31,
     transcript:
       "The WhatsApp support alone is worth everything. Having Arbaz in my corner kept me accountable every single week.",
-    audioSrc: "/audios/2.mp3",
+    audioSrc: "/audios/2New.mp3",
   },
   {
     type: "quote",
@@ -258,5 +258,5 @@ export const navLinks = [
   { href: "#plans", label: "Plans" },
   { href: "#results", label: "Results" },
   { href: "#process", label: "Process" },
-  { href: "#subscribe", label: "Subscribe" },
+  { href: "#subscribe", label: "Contact" },
 ];

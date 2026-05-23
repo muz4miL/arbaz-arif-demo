@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { useRef } from "react";
 import { whatsappUrl } from "@/config/site";
+import { PrestigeResultsViewer } from "./PrestigeResultsViewer";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -171,13 +172,17 @@ export function PrestigeSection() {
               </span>
             </h2>
 
-            <p style={{ fontSize: 15, lineHeight: 1.85, color: "var(--text3)", maxWidth: 520, marginBottom: 56 }}>
+            <p style={{ fontSize: 15, lineHeight: 1.85, color: "var(--text3)", maxWidth: 520, marginBottom: 28 }}>
               This is not just a diet plan or a workout routine. This is a{" "}
               <strong style={{ color: "var(--prestige-cream, #f5f0e6)", fontWeight: 600 }}>
                 high-accountability body transformation system
               </strong>{" "}
               with direct access to Arbaz Arif. He only takes 3 clients every 3 months.
             </p>
+
+            <div style={{ marginBottom: 40 }}>
+              <PrestigeResultsViewer />
+            </div>
 
             <div ref={featuresRef} style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 56 }}>
               {PRESTIGE_FEATURES.map((feat, i) => (
