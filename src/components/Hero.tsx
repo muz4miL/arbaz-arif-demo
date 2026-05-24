@@ -60,7 +60,7 @@ function IconOnline() {
 }
 
 const STATS = [
-  { value: "10+", numeric: 10, suffix: "+", label: "Years of Experience", Icon: IconYears },
+  { value: "12+", numeric: 12, suffix: "+", label: "Years of Experience", Icon: IconYears },
   { value: "500+", numeric: 500, suffix: "+", label: "Transformations", Icon: IconTransformations },
   { value: "Certified", numeric: null, suffix: "", label: "Trainer & Nutrition", Icon: IconCertified },
   { value: "Online", numeric: null, suffix: "", label: "Coaching Worldwide", Icon: IconOnline },
@@ -74,7 +74,7 @@ const HEADLINE_LINES: { words: { text: string; accent?: boolean }[] }[] = [
 
 const GRAIN_BG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
-function MaskedWord({ text, accent }: { text: string; accent?: boolean }) {
+function MaskedWord({ text, accent, isLast }: { text: string; accent?: boolean; isLast?: boolean }) {
   return (
     <span
       className="hero-word-mask inline-block align-bottom"
@@ -84,7 +84,7 @@ function MaskedWord({ text, accent }: { text: string; accent?: boolean }) {
         marginBottom: "-0.07em",
         paddingLeft: "0.05em",
         marginLeft: "-0.05em",
-        paddingRight: "0.18em",
+        paddingRight: isLast ? "0.45em" : "0.18em",
         marginRight: "-0.06em",
       }}
     >
@@ -154,7 +154,7 @@ function HeroCopy({
         {HEADLINE_LINES.map((line, i) => (
           <span key={i} className="block" style={{ overflow: "visible" }}>
             {line.words.map((w, wi) => (
-              <MaskedWord key={`${i}-${wi}-${w.text}`} text={w.text} accent={w.accent} />
+              <MaskedWord key={`${i}-${wi}-${w.text}`} text={w.text} accent={w.accent} isLast={wi === line.words.length - 1} />
             ))}
           </span>
         ))}
@@ -382,7 +382,7 @@ export function Hero() {
                   priority
                   sizes="(min-width: 1024px) 52vw, 0px"
                   className={`object-cover transition-opacity duration-700 ${imgReady ? "opacity-100" : "opacity-0"}`}
-                  style={{ objectPosition: "82% 42%" }}
+                  style={{ objectPosition: "88% 42%" }}
                   onLoad={() => setImgReady(true)}
                 />
               </div>
@@ -421,12 +421,12 @@ export function Hero() {
 
         <div ref={statsRef} className="hero-stats-desktop hidden lg:flex" role="group" aria-label="Coach credentials">
           <div
-            className="hero-stats-desktop__panel flex items-stretch overflow-hidden rounded-2xl border border-white/[0.1] bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl"
+            className="hero-stats-desktop__panel flex items-stretch overflow-hidden border border-white/[0.1] bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl"
           >
             {STATS.map((stat, i) => (
               <div
                 key={stat.label}
-                className={`flex min-w-[168px] flex-col justify-center gap-[7px] px-9 py-6 ${i < STATS.length - 1 ? "border-r border-white/[0.06]" : ""}`}
+                className={`flex min-w-[168px] flex-col items-center justify-center gap-[7px] px-9 py-6 text-center ${i < STATS.length - 1 ? "border-r border-white/[0.06]" : ""}`}
               >
                 <span className="text-[#c8ff00]/70">
                   <stat.Icon />
@@ -473,7 +473,7 @@ export function Hero() {
             {STATS.map((stat, i) => (
               <li
                 key={stat.label}
-                className={`flex flex-col gap-2 p-5 ${i % 2 === 0 ? "border-r border-white/[0.06]" : ""} ${i < 2 ? "border-b border-white/[0.06]" : ""}`}
+                className={`flex flex-col items-center gap-2 p-5 text-center ${i % 2 === 0 ? "border-r border-white/[0.06]" : ""} ${i < 2 ? "border-b border-white/[0.06]" : ""}`}
               >
                 <span className="text-[#c8ff00]/70">
                   <stat.Icon />

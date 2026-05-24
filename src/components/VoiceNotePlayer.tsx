@@ -1,8 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { ResultAvatar } from "./ResultAvatar";
-import { clientAvatars } from "@/data/content";
 
 let activeAudio: HTMLAudioElement | null = null;
 let activeOnPlayingChange: ((playing: boolean) => void) | null = null;
@@ -53,7 +51,6 @@ export function VoiceNoteCard({
   const [durationLabel, setDurationLabel] = useState(durationFallback);
   const [expanded, setExpanded] = useState(false);
   const labelId = useId();
-  const client = clientAvatars[name];
 
   const notifyPlaying = useCallback(
     (isPlaying: boolean) => {
@@ -216,9 +213,6 @@ export function VoiceNoteCard({
       )}
 
       <div className="voice-note-card__footer result-client-row">
-        {client && (
-          <ResultAvatar src={client.image} alt={name} initials={client.initials} />
-        )}
         <div>
           <p className="voice-note-card__name">{name}</p>
           <p className="voice-note-card__meta">

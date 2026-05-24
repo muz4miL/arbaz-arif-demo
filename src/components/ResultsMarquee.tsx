@@ -1,21 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { clientAvatars, resultsMarqueeItems, type ResultsMarqueeItem } from "@/data/content";
-import { ResultAvatar } from "./ResultAvatar";
+import { resultsMarqueeItems, type ResultsMarqueeItem } from "@/data/content";
 import { VoiceNoteCard } from "./VoiceNotePlayer";
-
-function ClientAvatar({ name }: { name: string }) {
-  const client = clientAvatars[name];
-  if (!client) return null;
-  return (
-    <ResultAvatar
-      src={client.image}
-      alt={`${name} — client transformation`}
-      initials={client.initials}
-    />
-  );
-}
 
 type StatMarqueeItem = Extract<ResultsMarqueeItem, { type: "stat" }>;
 type QuoteMarqueeItem = Extract<ResultsMarqueeItem, { type: "quote" }>;
@@ -26,7 +13,6 @@ function StatCard({ item }: { item: StatMarqueeItem }) {
       <p className="results-card__stat-value">{item.value}</p>
       <p className="results-card__stat-label">{item.label}</p>
       <div className="results-card__footer result-client-row">
-        <ClientAvatar name={item.name} />
         <div>
           <p className="results-card__name">{item.name}</p>
           <p className="results-card__plan">{item.plan}</p>
@@ -44,7 +30,6 @@ function QuoteCard({ item }: { item: QuoteMarqueeItem }) {
         &ldquo;{item.quote}&rdquo;
       </blockquote>
       <div className="results-card__footer result-client-row">
-        <ClientAvatar name={item.name} />
         <div>
           <p className="results-card__name">{item.name}</p>
           <p className="results-card__meta">

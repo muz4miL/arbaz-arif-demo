@@ -4,9 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { whatsappUrl } from "@/config/site";
-import { PrestigeResultsViewer } from "./PrestigeResultsViewer";
+import { PrestigeInfoModal } from "./PrestigeInfoModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,6 +81,7 @@ function GoldStar() {
 }
 
 export function PrestigeSection() {
+  const [modalOpen, setModalOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
 
@@ -180,15 +181,11 @@ export function PrestigeSection() {
               with direct access to Arbaz Arif. He only takes 3 clients every 3 months.
             </p>
 
-            <div style={{ marginBottom: 40 }}>
-              <PrestigeResultsViewer />
-            </div>
-
             <div ref={featuresRef} style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 56 }}>
               {PRESTIGE_FEATURES.map((feat, i) => (
                 <div key={i} className="prestige-feature-row">
-                  <div className="prestige-hex-badge" aria-hidden>
-                    <span>{String(i + 1).padStart(2, "0")}</span>
+                  <div className="prestige-roman-badge" aria-hidden>
+                    <span>{["I","II","III","IV","V"][i]}</span>
                   </div>
 
                   <div style={{ flex: 1 }}>
@@ -208,81 +205,92 @@ export function PrestigeSection() {
             </p>
           </div>
 
-          {/* RIGHT — sticky: card, gold CTA, and intake note scroll together */}
+          {/* RIGHT — sticky: card, gold CTA */}
           <div className="prestige-sticky">
             <div className="prestige-sticky-panel">
-            <div className="prestige-card">
-              <div className="prestige-card-topline" aria-hidden />
+              <div className="prestige-card">
+                <div className="prestige-card-topline" aria-hidden />
 
-              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
-                <div className="prestige-star-wrap">
-                  <GoldStar />
-                </div>
-                <div>
-                  <span className="prestige-card-name" style={{ display: "block" }}>
-                    Prestige
-                  </span>
-                  <span className="prestige-card-tier" style={{
-                    display: "block",
-                    fontSize: 10,
-                    fontFamily: "var(--font-mono), monospace",
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                  }}>
-                    Elite Coaching Tier
-                  </span>
-                </div>
-              </div>
-
-              <p className="prestige-included-label">What&apos;s Included:</p>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 28 }}>
-                {PRESTIGE_CARD_ITEMS.map((item, i) => (
-                  <div key={i} className="prestige-card-item">
-                    <GoldCheck />
-                    <span>{item}</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
+                  <div className="prestige-star-wrap">
+                    <GoldStar />
                   </div>
-                ))}
-              </div>
-
-              <div style={{ paddingTop: 20, borderTop: "1px solid rgba(201, 162, 39, 0.12)", textAlign: "center" }}>
-                <div className="prestige-badge-pill">
-                  <span className="prestige-badge-pill-dot" aria-hidden />
-                  <span className="prestige-badge-pill-text">By Application Only</span>
+                  <div>
+                    <span className="prestige-card-name" style={{ display: "block" }}>
+                      Prestige
+                    </span>
+                    <span className="prestige-card-tier" style={{
+                      display: "block",
+                      fontSize: 10,
+                      fontFamily: "var(--font-mono), monospace",
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                    }}>
+                      1 on 1 Mentorship from Arbaz Arif
+                    </span>
+                  </div>
                 </div>
+
+                <p className="prestige-included-label">What&apos;s Included:</p>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 28 }}>
+                  {PRESTIGE_CARD_ITEMS.map((item, i) => (
+                    <div key={i} className="prestige-card-item">
+                      <GoldCheck />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ paddingTop: 20, borderTop: "1px solid rgba(201, 162, 39, 0.12)", textAlign: "center" }}>
+                  <div className="prestige-badge-pill">
+                    <span className="prestige-badge-pill-dot" aria-hidden />
+                    <span className="prestige-badge-pill-text">By Application Only</span>
+                  </div>
+                </div>
+
+                <div className="prestige-corner prestige-corner--tl" aria-hidden />
+                <div className="prestige-corner prestige-corner--br" aria-hidden />
               </div>
 
-              <div className="prestige-corner prestige-corner--tl" aria-hidden />
-              <div className="prestige-corner prestige-corner--br" aria-hidden />
-            </div>
+              <div className="prestige-cta">
+                <Link
+                  href={whatsappUrl("Hi Arbaz, I'd like to apply for the Prestige Experience")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="prestige-btn-gold"
+                >
+                  <span>Apply for Prestige</span>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                    <path
+                      d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Link>
 
-            <div className="prestige-cta">
-              <Link
-                href={whatsappUrl("Hi Arbaz, I'd like to apply for the Prestige Experience")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="prestige-btn-gold"
-              >
-                <span>Apply for Prestige</span>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                  <path
-                    d="M3 8h10M9 4l4 4-4 4"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </Link>
-            </div>
-
-            <p className="prestige-intake">
-              <strong>Next intake:</strong> Q3 2025
-            </p>
+                <button
+                  type="button"
+                  className="prestige-btn-ghost"
+                  onClick={() => setModalOpen(true)}
+                  aria-haspopup="dialog"
+                  aria-expanded={modalOpen}
+                >
+                  <span>Show More Info</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+                    <path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <PrestigeInfoModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   );
 }

@@ -1,8 +1,12 @@
-import Link from "next/link";
-import { whatsappUrl } from "@/config/site";
+"use client";
+
+import { useState } from "react";
 import { ResultsMarquee } from "./ResultsMarquee";
+import { MoreResultsGallery } from "./MoreResultsGallery";
 
 export function ResultsSection() {
+  const [galleryOpen, setGalleryOpen] = useState(false);
+
   return (
     <section
       id="results"
@@ -30,22 +34,24 @@ export function ResultsSection() {
             </p>
           </div>
           <div data-gsap-fade>
-            <Link
-              href={whatsappUrl("Hi Arbaz, I want results like these")}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
               className="btn-primary"
+              onClick={() => setGalleryOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={galleryOpen}
             >
-              <span>Get Your Results</span>
+              <span>See More Results</span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </Link>
+            </button>
           </div>
         </div>
       </div>
 
       <ResultsMarquee />
+      <MoreResultsGallery open={galleryOpen} onClose={() => setGalleryOpen(false)} />
     </section>
   );
 }

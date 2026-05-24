@@ -14,7 +14,7 @@ export const credentials = [
   "Specialist in Body Recomposition & Fat Loss",
   "Online Coaching — Work from anywhere",
   "500+ Verified Client Transformations",
-  "10+ Years Industry Experience",
+  "12+ Years Industry Experience",
 ];
 
 export const methodPillars = [
@@ -157,7 +157,7 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     durationSec: 38,
     transcript:
       "Assalam o Alaikum — I lost 22 kilos in four months. Arbaz never let me skip check-ins. Honestly the best decision I made for my health.",
-    audioSrc: "/audios/1.mp3",
+    audioSrc: "/audios/1NEW.mp3",
   },
   {
     type: "quote",
@@ -196,7 +196,7 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     durationSec: 31,
     transcript:
       "The WhatsApp support alone is worth everything. Having Arbaz in my corner kept me accountable every single week.",
-    audioSrc: "/audios/2New.mp3",
+    audioSrc: "/audios/2.mp3",
   },
   {
     type: "quote",
