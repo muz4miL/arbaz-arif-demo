@@ -79,23 +79,22 @@ function MaskedWord({ text, accent, isLast }: { text: string; accent?: boolean; 
     <span
       className="hero-word-mask inline-block align-bottom"
       style={{
-        // ─── ITALIC CLIP FIX ───────────────────────────────────────────────
-        // iOS Safari has bugs with `em` units inside inset(), and needs the
-        // -webkit- prefix. We use PERCENTAGE values (relative to the element's
-        // own border-box width) which are always reliable cross-browser.
+        // ─── ITALIC CLIP FIX (definitive) ─────────────────────────────────
+        // iOS Safari silently ignores negative values in clip-path:inset(),
+        // treating them as 0 — which is identical to overflow:hidden. That's
+        // why every previous attempt failed.
         //
-        // inset(top  right  bottom  left)
-        //   top   = 0  → vertical clip at mask top edge (hides word during yPercent:110 animation)
-        //   right = -30% → expands clip 30% of element width to the RIGHT (covers italic overhang)
-        //   bottom = 0  → vertical clip at mask bottom edge (hides word when below mask)
-        //   left  = -10% → small left expansion for italic leftward lean
+        // Solution: polygon() with LARGE pixel x-extents + percentage y-extents.
+        //   x: -200px → 2000px  (effectively infinite — italic overhang is ~10px)
+        //   y: 0%     → 100%    (clips at mask top/bottom for GSAP yPercent reveal)
         //
-        // The GSAP yPercent:110→0 animation still works because top=0 / bottom=0
-        // clips the translated word until it slides into the visible zone.
-        clipPath: "inset(0 -30% 0 -10%)",
-        WebkitClipPath: "inset(0 -30% 0 -10%)",
-        // Word spacing — clip-path handles right-side glyph overflow, padding
-        // just provides gap between adjacent words on the same line.
+        // At yPercent:110 the inner word is ~110% of mask height below normal →
+        // below the 100% bottom boundary → hidden. At yPercent:0 it's fully
+        // within the vertical clip AND the horizontal extents are enormous so
+        // italic glyphs can never be cut. Works in all browsers.
+        clipPath: "polygon(-200px 0%, 2000px 0%, 2000px 100%, -200px 100%)",
+        WebkitClipPath: "polygon(-200px 0%, 2000px 0%, 2000px 100%, -200px 100%)",
+        // Word spacing only — clipping is handled entirely by polygon above.
         paddingRight: isLast ? "0.1em" : "0.42em",
       }}
     >
@@ -160,7 +159,14 @@ function HeroCopy({
 
       <h1
         className="hero-copy__headline font-black uppercase italic tracking-[-0.02em]"
-        style={{ overflow: "visible" }}
+        style={{
+          overflow: "visible",
+          // Force full container width so the h1 never shrink-wraps to exactly
+          // the text's layout width (which puts the last char's edge right at
+          // the clip boundary). With full width there is always room for italic
+          // glyph overhang on every line regardless of viewport size.
+          width: "100%",
+        }}
       >
         {HEADLINE_LINES.map((line, i) => (
           <span key={i} className="block" style={{ overflow: "visible" }}>
