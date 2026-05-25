@@ -79,13 +79,13 @@ function MaskedWord({ text, accent, isLast }: { text: string; accent?: boolean; 
     <span
       className="hero-word-mask inline-block align-bottom"
       style={{
-        overflow: "visible",
+        overflow: "hidden",
         paddingBottom: "0.07em",
         marginBottom: "-0.07em",
         paddingLeft: "0.05em",
         marginLeft: "-0.05em",
-        paddingRight: isLast ? "0.08em" : "0.08em",
-        marginRight: isLast ? "0em" : "-0.04em",
+        paddingRight: "0.5em",
+        marginRight: isLast ? "0em" : "-0.38em",
       }}
     >
       <span
@@ -235,7 +235,7 @@ export function Hero() {
       const scrollCue = scrollCueRef.current;
       if (!root || !pin || !content) return;
 
-      const masks = root.querySelectorAll<HTMLElement>(".hero-word-mask");
+      const words = root.querySelectorAll<HTMLElement>(".hero-word");
       const textBlocks = root.querySelectorAll<HTMLElement>("[data-hero-fade]");
       const statPanels = [stats, statsMobile].filter(Boolean) as HTMLElement[];
 
@@ -258,11 +258,11 @@ export function Hero() {
         mount.to(imageParallax, { filter: "brightness(1) saturate(1)", duration: 1.8, ease: "power2.out" }, 0.4);
       }
 
-      gsap.set(masks, { clipPath: "inset(100% 0 0 0)" });
-      mount.to(masks, { clipPath: "inset(0% 0 0 0)", duration: 1.1, stagger: 0.05, ease: "expo.out" }, 0.2);
+      gsap.set(words, { yPercent: 110 });
+      mount.to(words, { yPercent: 0, duration: 1.1, stagger: 0.05, ease: "expo.out" }, 0.2);
 
       mount.eventCallback("onComplete", () => {
-        gsap.set(masks, { clipPath: "none", clearProps: "clipPath" });
+        gsap.set(words, { clearProps: "transform" });
         ScrollTrigger.refresh();
       });
 

@@ -29,7 +29,6 @@
 .hero-section {
    position: relative;
    background: var(--bg);
-   overflow-x: hidden;
 }
 
 .hero-pin {
