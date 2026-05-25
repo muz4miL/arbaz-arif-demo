@@ -79,12 +79,24 @@ function MaskedWord({ text, accent, isLast }: { text: string; accent?: boolean; 
     <span
       className="hero-word-mask inline-block align-bottom"
       style={{
-        // clip-path instead of overflow:hidden — clips only vertically so the
-        // GSAP yPercent reveal works, while negative horizontal insets allow
-        // italic glyphs to visually bleed outside the box without getting cut.
-        clipPath: "inset(0 -0.35em -0.15em -0.12em)",
-        // Retain just enough right spacing so words don't visually merge.
-        paddingRight: isLast ? "0.05em" : "0.38em",
+        // ─── ITALIC CLIP FIX ───────────────────────────────────────────────
+        // iOS Safari has bugs with `em` units inside inset(), and needs the
+        // -webkit- prefix. We use PERCENTAGE values (relative to the element's
+        // own border-box width) which are always reliable cross-browser.
+        //
+        // inset(top  right  bottom  left)
+        //   top   = 0  → vertical clip at mask top edge (hides word during yPercent:110 animation)
+        //   right = -30% → expands clip 30% of element width to the RIGHT (covers italic overhang)
+        //   bottom = 0  → vertical clip at mask bottom edge (hides word when below mask)
+        //   left  = -10% → small left expansion for italic leftward lean
+        //
+        // The GSAP yPercent:110→0 animation still works because top=0 / bottom=0
+        // clips the translated word until it slides into the visible zone.
+        clipPath: "inset(0 -30% 0 -10%)",
+        WebkitClipPath: "inset(0 -30% 0 -10%)",
+        // Word spacing — clip-path handles right-side glyph overflow, padding
+        // just provides gap between adjacent words on the same line.
+        paddingRight: isLast ? "0.1em" : "0.42em",
       }}
     >
       <span
