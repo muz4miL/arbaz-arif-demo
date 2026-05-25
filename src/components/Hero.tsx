@@ -81,25 +81,28 @@ function MaskedWord({ text, accent, isLast }: { text: string; accent?: boolean; 
       style={{
         // ─── ITALIC CLIP FIX (definitive) ─────────────────────────────────
         // iOS Safari silently ignores negative values in clip-path:inset(),
-        // treating them as 0 — which is identical to overflow:hidden. That's
-        // why every previous attempt failed.
+        // treating them as 0 — which is identical to overflow:hidden.
         //
         // Solution: polygon() with LARGE pixel x-extents + percentage y-extents.
         //   x: -200px → 2000px  (effectively infinite — italic overhang is ~10px)
         //   y: 0%     → 100%    (clips at mask top/bottom for GSAP yPercent reveal)
-        //
-        // At yPercent:110 the inner word is ~110% of mask height below normal →
-        // below the 100% bottom boundary → hidden. At yPercent:0 it's fully
-        // within the vertical clip AND the horizontal extents are enormous so
-        // italic glyphs can never be cut. Works in all browsers.
         clipPath: "polygon(-200px 0%, 2000px 0%, 2000px 100%, -200px 100%)",
         WebkitClipPath: "polygon(-200px 0%, 2000px 0%, 2000px 100%, -200px 100%)",
-        // Word spacing only — clipping is handled entirely by polygon above.
-        paddingRight: isLast ? "0.1em" : "0.42em",
       }}
     >
       <span
         className={`hero-word inline-block will-change-transform ${accent ? "text-[#c8ff00]" : "text-white"}`}
+        style={{
+          // Critical fix for italic glyph clipping in hardware-accelerated layers:
+          // When an element has `will-change-transform` or active GSAP transforms,
+          // the browser creates a composited layer matching the element's bounds.
+          // For italic text, the slant overhangs outside the standard layout box.
+          // Adding padding directly to the animated child element extends its
+          // painted bounds, ensuring the italic slant renders completely inside
+          // the layer. A small negative margin compensates for layout spacing.
+          paddingRight: isLast ? "0.25em" : "0.55em",
+          marginRight: isLast ? "-0.15em" : "-0.13em",
+        }}
       >
         {text}
       </span>
