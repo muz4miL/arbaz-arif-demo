@@ -79,13 +79,12 @@ function MaskedWord({ text, accent, isLast }: { text: string; accent?: boolean; 
     <span
       className="hero-word-mask inline-block align-bottom"
       style={{
-        overflow: "hidden",
-        paddingBottom: "0.07em",
-        marginBottom: "-0.07em",
-        paddingLeft: "0.05em",
-        marginLeft: "-0.05em",
-        paddingRight: "0.5em",
-        marginRight: isLast ? "0em" : "-0.38em",
+        // clip-path instead of overflow:hidden — clips only vertically so the
+        // GSAP yPercent reveal works, while negative horizontal insets allow
+        // italic glyphs to visually bleed outside the box without getting cut.
+        clipPath: "inset(0 -0.35em -0.15em -0.12em)",
+        // Retain just enough right spacing so words don't visually merge.
+        paddingRight: isLast ? "0.05em" : "0.38em",
       }}
     >
       <span
