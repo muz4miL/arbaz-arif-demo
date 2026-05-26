@@ -45,7 +45,7 @@ export const clientAvatars: Record<string, { image: string; initials: string }> 
   "Ahmed K.": { image: "/clients/ahmed-k.jpg", initials: "AK" },
   "Sara R.": { image: "/clients/sara-r.jpg", initials: "SR" },
   "Usman M.": { image: "/clients/usman-m.jpg", initials: "UM" },
-  "Safina R.": { image: "/clients/fatima-h.jpg", initials: "SR" },
+  "Safina Riaz": { image: "/clients/fatima-h.jpg", initials: "SR" },
   "Naveed M.": { image: "/clients/naveed-m.jpg", initials: "NM" },
   "Zain A.": { image: "/clients/zain-a.jpg", initials: "ZA" },
   "Zain Abbas": { image: "/clients/zain-a.jpg", initials: "ZA" },
@@ -93,7 +93,7 @@ export const clientResults = [
     image: clientAvatars["Usman M."].image,
   },
   {
-    name: "Safina R.",
+    name: "Safina Riaz",
     initials: "SR",
     program: "Premium Plan",
     quote:
@@ -102,7 +102,7 @@ export const clientResults = [
       { value: "18kg", label: "Lost" },
       { value: "20wk", label: "Duration" },
     ],
-    image: clientAvatars["Safina R."].image,
+    image: clientAvatars["Safina Riaz"].image,
   },
 ];
 
@@ -161,22 +161,22 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     location: "Islamabad, PK",
     plan: "Starter Plan",
   },
-  { type: "stat", value: "18kg", label: "Lost", name: "Safina R.", plan: "Premium Plan" },
+  { type: "stat", value: "18kg", label: "Lost", name: "Safina Riaz", plan: "Premium Plan" },
   {
     type: "voice",
-    name: "Safina R.",
+    name: "Safina Riaz",
     plan: "Premium Plan",
     location: "Karachi, PK",
     duration: "0:31",
     durationSec: 31,
     transcript:
       "Assalamualikum Arbaz, my one month completed. I lost around 6-7kg. I have noticed a big difference in my strength and energy levels. Thank you!",
-    audioSrc: "/audios/2.mp3",
+    audioSrc: "/audios/2_k5l8h231.mp3",
   },
   {
     type: "quote",
     quote: "And your plan is highly recommended. I got pretty good results — 20 days, 3 kgs. Thanks!!",
-    name: "Safina R.",
+    name: "Safina Riaz",
     location: "Karachi, PK",
     plan: "Premium Plan",
   },

@@ -16,34 +16,6 @@ const PRESTIGE_TRANSFORMATIONS = [
   { src: "/prestigeResults/2.png", title: "Transformation II", subtitle: "Prestige client · documented results" },
 ] as const;
 
-const PRESTIGE_FEATURES = [
-  {
-    num: "I",
-    title: "Complete Transformation Blueprint",
-    desc: "Custom fat loss / muscle gain strategy based on body type, lifestyle & schedule. Periodised training phases (not random workouts). Several meal options so your food stays enjoyable.",
-  },
-  {
-    num: "II",
-    title: "Weekly 1-on-1 Check-ins",
-    desc: "Macro adjustments, cardio manipulation, plateau-breaking strategy — done every single week with direct feedback from Arbaz.",
-  },
-  {
-    num: "III",
-    title: "24/7 WhatsApp Priority",
-    desc: "Direct accountability with Arbaz — no gatekeepers, no delays. Priority response within hours, not days.",
-  },
-  {
-    num: "IV",
-    title: "Habit & Mindset Coaching",
-    desc: "Discipline building, craving control, and travel strategy so consistency is never an excuse. Mental framework for permanent change.",
-  },
-  {
-    num: "V",
-    title: "Supplement Protocol",
-    desc: "Exact supplement protocol: protein, creatine, fat burners if needed — nothing generic. Evidence-based recommendations tailored to you.",
-  },
-] as const;
-
 function useBodyScrollLock(locked: boolean) {
   useEffect(() => {
     if (!locked) return;
@@ -53,14 +25,6 @@ function useBodyScrollLock(locked: boolean) {
       document.body.style.overflow = prev;
     };
   }, [locked]);
-}
-
-function RomanBadge({ num }: { num: string }) {
-  return (
-    <div className="prestige-roman-badge" aria-hidden>
-      <span>{num}</span>
-    </div>
-  );
 }
 
 export function PrestigeInfoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -177,62 +141,7 @@ export function PrestigeInfoModal({ open, onClose }: { open: boolean; onClose: (
                   </div>
                 </section>
 
-                {/* Block 2: Features I & II */}
-                <section className="prestige-modal-section prestige-modal-features">
-                  <p className="prestige-modal-section-label">What&apos;s Included</p>
-                  <div className="prestige-modal-features-grid">
-                    {PRESTIGE_FEATURES.slice(0, 2).map((feat) => (
-                      <div key={feat.num} className="prestige-modal-feature-card">
-                        <div className="prestige-modal-feature-card__top">
-                          <RomanBadge num={feat.num} />
-                          <h4 className="prestige-modal-feature-card__title">{feat.title}</h4>
-                        </div>
-                        <p className="prestige-modal-feature-card__desc">{feat.desc}</p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* Block 3: More Transformations (reprise, single column for rhythm) */}
-                <section className="prestige-modal-section prestige-modal-images prestige-modal-images--reprise">
-                  <p className="prestige-modal-section-label">More Results</p>
-                  <div className="prestige-modal-images-grid prestige-modal-images-grid--large">
-                    {PRESTIGE_TRANSFORMATIONS.map((item, i) => (
-                      <figure key={`reprise-${item.src}`} className="prestige-modal-frame">
-                        <div className="prestige-modal-frame__media prestige-modal-frame__media--large">
-                          <Image
-                            src={item.src}
-                            alt={`${item.title} — transformation showcase`}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 80vw"
-                            className="prestige-modal-frame__img"
-                          />
-                        </div>
-                        <figcaption className="prestige-modal-frame__caption">
-                          <span className="prestige-modal-frame__title">{item.title}</span>
-                        </figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                </section>
-
-                {/* Block 4: Features III, IV, V */}
-                <section className="prestige-modal-section prestige-modal-features">
-                  <p className="prestige-modal-section-label">Continued</p>
-                  <div className="prestige-modal-features-grid prestige-modal-features-grid--three">
-                    {PRESTIGE_FEATURES.slice(2, 5).map((feat) => (
-                      <div key={feat.num} className="prestige-modal-feature-card">
-                        <div className="prestige-modal-feature-card__top">
-                          <RomanBadge num={feat.num} />
-                          <h4 className="prestige-modal-feature-card__title">{feat.title}</h4>
-                        </div>
-                        <p className="prestige-modal-feature-card__desc">{feat.desc}</p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* Block 5: Footer CTA */}
+                {/* Block 2: Single clear CTA */}
                 <section className="prestige-modal-section prestige-modal-footer-cta">
                   <p className="prestige-modal-footer-text">
                     Only 3 spots per quarter. Next intake by application.

@@ -13,29 +13,6 @@ gsap.registerPlugin(ScrollTrigger);
 const GOLD = "#c9a227";
 const GOLD_BRIGHT = "#e8d48b";
 
-const PRESTIGE_FEATURES = [
-  {
-    title: "Complete Transformation Blueprint",
-    desc: "Custom fat loss / muscle gain strategy based on body type, lifestyle & schedule. Periodised training phases (not random workouts). Several meal options so your food stays enjoyable.",
-  },
-  {
-    title: "Weekly Check-ins + Progress Adjustments",
-    desc: "Macro adjustments, cardio manipulation, plateau-breaking strategy — done every single week.",
-  },
-  {
-    title: "24/7 WhatsApp Access (Priority Support)",
-    desc: "Direct accountability with Arbaz — no gatekeepers, no delays.",
-  },
-  {
-    title: "Habit & Mindset Coaching",
-    desc: "Discipline building, craving control, and travel strategy so consistency is never an excuse.",
-  },
-  {
-    title: "Supplement Guidance",
-    desc: "Exact supplement protocol: protein, creatine, fat burners if needed — nothing generic.",
-  },
-];
-
 const PRESTIGE_CARD_ITEMS = [
   "Complete Transformation Blueprint",
   "Weekly 1-on-1 Check-ins",
@@ -83,7 +60,6 @@ function GoldStar() {
 export function PrestigeSection() {
   const [modalOpen, setModalOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const featuresRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     const section = sectionRef.current;
@@ -100,22 +76,6 @@ export function PrestigeSection() {
           stagger: 0.08,
           ease: "expo.out",
           scrollTrigger: { trigger: section, start: "top 80%", toggleActions: "play none none none" },
-        },
-      );
-    }
-
-    const rows = featuresRef.current?.querySelectorAll<HTMLElement>(".prestige-feature-row");
-    if (rows?.length) {
-      gsap.fromTo(
-        rows,
-        { x: -30, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.75,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: featuresRef.current, start: "top 82%", toggleActions: "play none none none" },
         },
       );
     }
@@ -173,7 +133,7 @@ export function PrestigeSection() {
               </span>
             </h2>
 
-            <p style={{ fontSize: 15, lineHeight: 1.85, color: "var(--text3)", maxWidth: 520, marginBottom: 28 }}>
+            <p style={{ fontSize: 15, lineHeight: 1.85, color: "var(--text3)", maxWidth: 520, marginBottom: 20 }}>
               This is not just a diet plan or a workout routine. This is a{" "}
               <strong style={{ color: "var(--prestige-cream, #f5f0e6)", fontWeight: 600 }}>
                 high-accountability body transformation system
@@ -181,23 +141,18 @@ export function PrestigeSection() {
               with direct access to Arbaz Arif. He only takes 3 clients every 3 months.
             </p>
 
-            <div ref={featuresRef} style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 56 }}>
-              {PRESTIGE_FEATURES.map((feat, i) => (
-                <div key={i} className="prestige-feature-row">
-                  <div className="prestige-roman-badge" aria-hidden>
-                    <span>{["I","II","III","IV","V"][i]}</span>
-                  </div>
-
-                  <div style={{ flex: 1 }}>
-                    <h3 className="prestige-feature-title" style={{ marginBottom: 6 }}>
-                      {feat.title}
-                    </h3>
-                    <p style={{ fontSize: 13, lineHeight: 1.75, color: "var(--text3)", margin: 0 }}>
-                      {feat.desc}
-                    </p>
-                  </div>
-                </div>
-              ))}
+            <div style={{ marginBottom: 40 }}>
+              <Link
+                href={whatsappUrl("Hi Arbaz, I'd like to apply for the Prestige Experience")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="prestige-direct-link"
+              >
+                <span>Get the Prestige Package</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
             </div>
 
             <p className="prestige-spots-note" style={{ textAlign: "left" }}>

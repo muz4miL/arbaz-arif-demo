@@ -2852,6 +2852,39 @@ footer {
    text-align: center;
 }
 
+#prestige .prestige-direct-link {
+   display: inline-flex;
+   align-items: center;
+   gap: 8px;
+   font-family: var(--font-space), sans-serif;
+   font-size: 13px;
+   font-weight: 600;
+   letter-spacing: 0.04em;
+   color: var(--prestige-cream, #f5f0e6);
+   text-decoration: none;
+   padding: 12px 24px;
+   border-radius: 6px;
+   border: 1px solid rgba(201, 162, 39, 0.35);
+   background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(201, 162, 39, 0.03) 100%);
+   transition: all 0.35s var(--ease);
+   cursor: pointer;
+}
+
+#prestige .prestige-direct-link:hover {
+   border-color: rgba(201, 162, 39, 0.6);
+   background: linear-gradient(135deg, rgba(201, 162, 39, 0.18) 0%, rgba(201, 162, 39, 0.06) 100%);
+   box-shadow: 0 4px 20px rgba(201, 162, 39, 0.15);
+   transform: translateY(-1px);
+}
+
+#prestige .prestige-direct-link svg {
+   transition: transform 0.3s var(--ease);
+}
+
+#prestige .prestige-direct-link:hover svg {
+   transform: translateX(3px);
+}
+
 @media (min-width: 1025px) {
    #prestige .prestige-sticky {
       position: sticky !important;
