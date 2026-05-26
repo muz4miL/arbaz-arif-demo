@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import { resultsMarqueeItems, type ResultsMarqueeItem } from "@/data/content";
 import { VoiceNoteCard } from "./VoiceNotePlayer";
 
@@ -73,24 +74,25 @@ function MarqueeCard({
   }
 }
 
-export function ResultsMarquee() {
-  const items = [...resultsMarqueeItems, ...resultsMarqueeItems];
-  const [marqueePaused, setMarqueePaused] = useState(false);
+function DesktopMarquee({ items, onVoicePlayingChange }: { items: ResultsMarqueeItem[]; onVoicePlayingChange: (playing: boolean) => void }) {
+  const doubled = [...items, ...items];
+  const [paused, setPaused] = useState(false);
 
   const handleVoicePlayingChange = useCallback((playing: boolean) => {
-    setMarqueePaused(playing);
-  }, []);
+    setPaused(playing);
+    onVoicePlayingChange(playing);
+  }, [onVoicePlayingChange]);
 
   return (
-    <div className="results-marquee-wrap">
+    <div className="results-marquee-wrap hidden lg:block">
       <div className="results-marquee-fade results-marquee-fade--left" aria-hidden />
       <div className="results-marquee-fade results-marquee-fade--right" aria-hidden />
 
       <div
-        className={`animate-marquee-scroll results-marquee-track${marqueePaused ? " is-paused" : ""}`}
+        className={`animate-marquee-scroll results-marquee-track${paused ? " is-paused" : ""}`}
         aria-live="off"
       >
-        {items.map((item, i) => (
+        {doubled.map((item, i) => (
           <MarqueeCard
             key={`${item.type}-${item.name}-${i}`}
             item={item}
@@ -99,5 +101,78 @@ export function ResultsMarquee() {
         ))}
       </div>
     </div>
+  );
+}
+
+function MobileCarousel({ items, onVoicePlayingChange }: { items: ResultsMarqueeItem[]; onVoicePlayingChange: (playing: boolean) => void }) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => { emblaApi.off("select", onSelect); };
+  }, [emblaApi, onSelect]);
+
+  const handleVoicePlayingChange = useCallback((playing: boolean) => {
+    setPaused(playing);
+    onVoicePlayingChange(playing);
+  }, [onVoicePlayingChange]);
+
+  return (
+    <div className="lg:hidden">
+      <div className="results-carousel overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {items.map((item, i) => (
+            <div key={`${item.type}-${item.name}-${i}`} className="flex-[0_0_85%] min-w-0 px-2">
+              <MarqueeCard
+                item={item}
+                onVoicePlayingChange={handleVoicePlayingChange}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Pagination dots */}
+      <div className="mt-5 flex items-center justify-center gap-2">
+        {items.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => emblaApi?.scrollTo(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === selectedIndex
+                ? "w-5 bg-[#c8ff00]"
+                : "w-1.5 bg-white/20 hover:bg-white/40"
+            }`}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function ResultsMarquee() {
+  const items = resultsMarqueeItems;
+  const [marqueePaused, setMarqueePaused] = useState(false);
+
+  const handleVoicePlayingChange = useCallback((playing: boolean) => {
+    setMarqueePaused(playing);
+  }, []);
+
+  return (
+    <>
+      <DesktopMarquee items={items} onVoicePlayingChange={handleVoicePlayingChange} />
+      <MobileCarousel items={items} onVoicePlayingChange={handleVoicePlayingChange} />
+    </>
   );
 }

@@ -17,33 +17,6 @@ export const credentials = [
   "12+ Years Industry Experience",
 ];
 
-export const methodPillars = [
-  {
-    num: "01",
-    title: "Precision Training",
-    desc: "Every rep and set calculated for your biomechanics. No guesswork.",
-    icon: "layers",
-  },
-  {
-    num: "02",
-    title: "Metabolic Nutrition",
-    desc: "Custom macros that adapt as your body changes. Sustainable, not starvation.",
-    icon: "clock",
-  },
-  {
-    num: "03",
-    title: "Accountability Systems",
-    desc: "Daily check-ins, form reviews, and real-time adjustments.",
-    icon: "users",
-  },
-  {
-    num: "04",
-    title: "Lifestyle Integration",
-    desc: "Programs built around your schedule. Fitness that fits your life.",
-    icon: "shield",
-  },
-];
-
 export const processSteps = [
   {
     num: "01",
@@ -72,12 +45,14 @@ export const clientAvatars: Record<string, { image: string; initials: string }> 
   "Ahmed K.": { image: "/clients/ahmed-k.jpg", initials: "AK" },
   "Sara R.": { image: "/clients/sara-r.jpg", initials: "SR" },
   "Usman M.": { image: "/clients/usman-m.jpg", initials: "UM" },
-  "Fatima H.": { image: "/clients/fatima-h.jpg", initials: "FH" },
+  "Safina R.": { image: "/clients/fatima-h.jpg", initials: "SR" },
   "Naveed M.": { image: "/clients/naveed-m.jpg", initials: "NM" },
   "Zain A.": { image: "/clients/zain-a.jpg", initials: "ZA" },
   "Zain Abbas": { image: "/clients/zain-a.jpg", initials: "ZA" },
   "M. Naveed": { image: "/clients/naveed-m.jpg", initials: "MN" },
   "Hira Asif": { image: "/clients/hira-a.jpg", initials: "HA" },
+  "Bilal K.": { image: "/clients/bilal-k.jpg", initials: "BK" },
+  "Hamza S.": { image: "/clients/hamza-s.jpg", initials: "HS" },
 };
 
 export const clientResults = [
@@ -118,16 +93,16 @@ export const clientResults = [
     image: clientAvatars["Usman M."].image,
   },
   {
-    name: "Fatima H.",
-    initials: "FH",
+    name: "Safina R.",
+    initials: "SR",
     program: "Premium Plan",
     quote:
-      "The WhatsApp support alone is worth everything. Having Arbaz in my corner kept me accountable.",
+      "The WhatsApp support alone is worth everything. Having Arbaz in my corner kept me accountable every single week.",
     metrics: [
       { value: "18kg", label: "Lost" },
       { value: "20wk", label: "Duration" },
     ],
-    image: clientAvatars["Fatima H."].image,
+    image: clientAvatars["Safina R."].image,
   },
 ];
 
@@ -186,22 +161,22 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     location: "Islamabad, PK",
     plan: "Starter Plan",
   },
-  { type: "stat", value: "18kg", label: "Lost", name: "Fatima H.", plan: "Premium Plan" },
+  { type: "stat", value: "18kg", label: "Lost", name: "Safina R.", plan: "Premium Plan" },
   {
     type: "voice",
-    name: "Fatima H.",
+    name: "Safina R.",
     plan: "Premium Plan",
     location: "Karachi, PK",
     duration: "0:31",
     durationSec: 31,
     transcript:
-      "The WhatsApp support alone is worth everything. Having Arbaz in my corner kept me accountable every single week.",
+      "Assalamualikum Arbaz, my one month completed. I lost around 6-7kg. I have noticed a big difference in my strength and energy levels. Thank you!",
     audioSrc: "/audios/2.mp3",
   },
   {
     type: "quote",
-    quote: "Having Arbaz in my corner kept me accountable. Lost 18kg without feeling deprived.",
-    name: "Fatima H.",
+    quote: "And your plan is highly recommended. I got pretty good results — 20 days, 3 kgs. Thanks!!",
+    name: "Safina R.",
     location: "Karachi, PK",
     plan: "Premium Plan",
   },
@@ -219,8 +194,8 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
   },
   {
     type: "quote",
-    quote: "Best investment I've made for my health. Lost 20kg while living in Dubai.",
-    name: "Zain A.",
+    quote: "Hey I just weighed myself. I actually lost 4.4 kgs in about 2.5 weeks. Unbelievable progress!",
+    name: "Bilal K.",
     location: "Lahore, PK",
     plan: "Premium Plan",
   },

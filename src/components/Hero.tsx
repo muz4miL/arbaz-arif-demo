@@ -3,67 +3,18 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { BadgeCheck, Clock, Globe, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, type RefObject } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function IconYears() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path d="M6 2h12M6 22h12M8 2v5l4 5-4 5v5M16 2v5l-4 5 4 5v5"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9.5 12h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function IconTransformations() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <circle cx="12" cy="5" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M7 12c0-2.761 2.239-5 5-5s5 2.239 5 5"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M9 22V14M15 22V14M9 14h6"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M18 8l-2 4h3l-2 4"
-        stroke="#c8ff00" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function IconCertified() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path d="M12 2L4 6v6c0 5.25 3.5 9.74 8 11 4.5-1.26 8-5.75 8-11V6L12 2z"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M8.5 12l2.5 2.5 4.5-4.5"
-        stroke="#c8ff00" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function IconOnline() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M12 3c-2.5 3-4 5.5-4 9s1.5 6 4 9M12 3c2.5 3 4 5.5 4 9s-1.5 6-4 9"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M3 12h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="18.5" cy="5.5" r="3.5" fill="#080808" />
-      <path d="M17 5.5c0-.83.67-1.5 1.5-1.5"
-        stroke="#c8ff00" strokeWidth="1.4" strokeLinecap="round" />
-      <circle cx="18.5" cy="5.5" r="1" fill="#c8ff00" />
-    </svg>
-  );
-}
-
 const STATS = [
-  { value: "12+", numeric: 12, suffix: "+", label: "Years of Experience", Icon: IconYears },
-  { value: "500+", numeric: 500, suffix: "+", label: "Transformations", Icon: IconTransformations },
-  { value: "Certified", numeric: null, suffix: "", label: "Trainer & Nutrition", Icon: IconCertified },
-  { value: "Online", numeric: null, suffix: "", label: "Coaching Worldwide", Icon: IconOnline },
+  { value: "12+", numeric: 12, suffix: "+", label: "Years of Experience", Icon: Clock },
+  { value: "500+", numeric: 500, suffix: "+", label: "Transformations", Icon: TrendingUp },
+  { value: "Certified", numeric: null, suffix: "", label: "Trainer & Nutrition", Icon: BadgeCheck },
+  { value: "Online", numeric: null, suffix: "", label: "Coaching Worldwide", Icon: Globe },
 ] as const;
 
 const HEADLINE_LINES: { words: { text: string; accent?: boolean }[] }[] = [
@@ -116,17 +67,27 @@ function StatCounter({ value, numeric, suffix }: { value: string; numeric: numbe
   useGSAP(() => {
     if (!ref.current || numeric === null) return;
     const obj = { val: 0 };
-    gsap.to(obj, {
+    const tween = gsap.to(obj, {
       val: numeric,
-      duration: 2,
-      ease: "power2.out",
+      duration: 2.5,
+      ease: "power3.out",
       delay: 1.2,
       onUpdate: () => {
         if (ref.current) {
           ref.current.textContent = Math.round(obj.val) + suffix;
         }
       },
+      onComplete: () => {
+        if (ref.current) {
+          gsap.fromTo(
+            ref.current,
+            { scale: 1 },
+            { scale: 1.08, duration: 0.25, ease: "back.out(2)", yoyo: true, repeat: 1 }
+          );
+        }
+      },
     });
+    return () => { tween.kill(); };
   }, { scope: ref });
 
   if (numeric === null) {
@@ -182,12 +143,9 @@ function HeroCopy({
 
       <p
         data-hero-fade
-        className="hero-copy__sub font-semibold leading-relaxed tracking-wide text-[#c2c2c2]"
+        className="hero-copy__sub font-medium leading-relaxed tracking-wide text-[#a0a0a0]"
       >
-        Pakistan&apos;s{" "}
-        <span className="font-semibold text-[#c8ff00]">most trusted online fitness coach</span>
-        {" "}— 500+ transformations across{" "}
-        <span className="font-semibold text-[#c8ff00]">Pakistan, UAE, UK, US &amp; Ireland!</span>
+        Pakistan&apos;s most trusted online fitness coach — 500+ transformations across Pakistan, UAE, UK, US &amp; Ireland!
       </p>
 
       <div data-hero-fade className="hero-copy__ctas hidden flex-wrap items-center gap-4 sm:gap-5 lg:flex">
@@ -440,21 +398,21 @@ export function Hero() {
         </div>
 
         <div ref={statsRef} className="hero-stats-desktop hidden lg:flex" role="group" aria-label="Coach credentials">
-          <div
-            className="hero-stats-desktop__panel flex items-stretch overflow-hidden border border-white/[0.1] bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl"
-          >
+          <div className="hero-stats-desktop__panel relative flex items-stretch overflow-hidden rounded-lg border border-white/[0.12] bg-gradient-to-b from-white/[0.08] to-white/[0.03] shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-xl">
+            {/* Top accent line */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[2px] bg-gradient-to-r from-transparent via-[#c8ff00]/60 to-transparent" aria-hidden />
             {STATS.map((stat, i) => (
               <div
                 key={stat.label}
-                className={`flex min-w-[168px] flex-col items-center justify-center gap-[7px] px-9 py-6 text-center ${i < STATS.length - 1 ? "border-r border-white/[0.06]" : ""}`}
+                className={`relative flex min-w-[180px] flex-col items-center justify-center gap-2.5 px-10 py-7 text-center ${i < STATS.length - 1 ? "border-r border-white/[0.06]" : ""}`}
               >
-                <span className="text-[#c8ff00]/70">
-                  <stat.Icon />
+                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[#c8ff00]/20 bg-[#111] text-[#c8ff00]">
+                  <stat.Icon size={18} strokeWidth={1.5} />
                 </span>
-                <p className="text-[1.35rem] font-black leading-none tracking-tight text-white">
+                <p className="text-[1.5rem] font-black leading-none tracking-tight text-white" style={{ textShadow: "0 2px 16px rgba(255,255,255,0.08)" }}>
                   <StatCounter value={stat.value} numeric={stat.numeric} suffix={stat.suffix} />
                 </p>
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#aaa] whitespace-nowrap">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#bbb] whitespace-nowrap">
                   {stat.label}
                 </p>
               </div>
@@ -493,15 +451,15 @@ export function Hero() {
             {STATS.map((stat, i) => (
               <li
                 key={stat.label}
-                className={`flex flex-col items-center gap-2 p-5 text-center ${i % 2 === 0 ? "border-r border-white/[0.06]" : ""} ${i < 2 ? "border-b border-white/[0.06]" : ""}`}
+                className={`flex flex-col items-center gap-2.5 p-6 text-center ${i % 2 === 0 ? "border-r border-white/[0.06]" : ""} ${i < 2 ? "border-b border-white/[0.06]" : ""}`}
               >
-                <span className="text-[#c8ff00]/70">
-                  <stat.Icon />
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#c8ff00]/20 bg-[#111] text-[#c8ff00]">
+                  <stat.Icon size={16} strokeWidth={1.5} />
                 </span>
-                <p className="text-[1.05rem] font-black tracking-tight text-white">
+                <p className="text-[1.15rem] font-black leading-none tracking-tight text-white" style={{ textShadow: "0 2px 12px rgba(255,255,255,0.06)" }}>
                   <StatCounter value={stat.value} numeric={stat.numeric} suffix={stat.suffix} />
                 </p>
-                <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#aaa]">{stat.label}</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#bbb]">{stat.label}</p>
               </li>
             ))}
           </ul>

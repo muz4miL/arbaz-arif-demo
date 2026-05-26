@@ -5,7 +5,6 @@ import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
-import { MethodSection } from "@/components/MethodSection";
 import { Navbar } from "@/components/Navbar";
 import { PlansSection } from "@/components/PlansSection";
 import { PrestigeSection } from "@/components/PrestigeSection";
@@ -22,7 +21,6 @@ export function HomePage() {
       <main id="main-content">
         <Hero />
         <Marquee />
-        <MethodSection />
         <ResultsSection />
         <PlansSection />
         <PrestigeSection />
