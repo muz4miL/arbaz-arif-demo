@@ -112,8 +112,8 @@ export function Navbar() {
         {/* Mobile hamburger */}
         <button
           onClick={toggleMenu}
-          className="lg:hidden relative flex flex-col items-center justify-center gap-[5px]
-                     bg-transparent border-none cursor-pointer w-8 h-8"
+          className={`lg:hidden relative flex flex-col items-center justify-center gap-[5px]
+                     bg-transparent border-none cursor-pointer w-8 h-8 ${menuOpen ? "opacity-0 pointer-events-none" : ""}`}
           style={{ zIndex: 110 }}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
