@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { sendContactEmail } from "@/app/actions";
 
 /* ─── Count-up hook ─── */
 function useCountUp(target: number, duration = 1800, suffix = "") {
@@ -84,17 +85,26 @@ function AnimatedStat({
 
 /* ─── Main component ─── */
 export function SubscribeSection() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     setStatus("sending");
-    setTimeout(() => {
+    setErrorMsg("");
+
+    const formData = new FormData(form);
+    const result = await sendContactEmail(formData);
+
+    if (result.ok) {
       setStatus("sent");
       form.reset();
       setTimeout(() => setStatus("idle"), 3500);
-    }, 1200);
+    } else {
+      setStatus("error");
+      setErrorMsg(result.error || "Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -342,6 +352,7 @@ export function SubscribeSection() {
                     opacity: status === "sending" ? 0.7 : 1,
                     cursor: status === "sending" ? "wait" : "none",
                     border: "none",
+                    background: status === "error" ? "#ff4444" : undefined,
                   }}
                 >
                   <span>
@@ -349,6 +360,8 @@ export function SubscribeSection() {
                       ? "Sending..."
                       : status === "sent"
                       ? "Application Sent ✓"
+                      : status === "error"
+                      ? "Failed — Try Again"
                       : "Apply for Coaching"}
                   </span>
                   {status === "idle" && (
@@ -373,7 +386,7 @@ export function SubscribeSection() {
                 <p
                   style={{
                     marginTop: 4,
-                    color: "var(--text4)",
+                    color: status === "error" ? "#ff6666" : "var(--text4)",
                     fontSize: 11,
                     letterSpacing: "0.08em",
                     lineHeight: 1.7,
@@ -381,7 +394,9 @@ export function SubscribeSection() {
                     textAlign: "center",
                   }}
                 >
-                  All applications reviewed personally · 100% confidential
+                  {status === "error"
+                    ? errorMsg
+                    : "All applications reviewed personally · 100% confidential"}
                 </p>
               </form>
             </div>
