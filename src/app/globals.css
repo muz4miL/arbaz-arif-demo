@@ -150,7 +150,10 @@
       transform: translateX(-50%);
    }
 
-
+   .hero-stats-desktop__panel {
+      transform: scale(1.1);
+      transform-origin: center bottom;
+   }
 }
 
 @media (min-width: 1280px) {
