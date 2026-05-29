@@ -42,22 +42,21 @@ export const processSteps = [
 
 /** Portrait + initials keyed by display name (results marquee & cards) */
 export const clientAvatars: Record<string, { image: string; initials: string }> = {
-  "Ahmed K.": { image: "/clients/ahmed-k.jpg", initials: "AK" },
+  "Ahmed Nisar": { image: "/clients/ahmed-k.jpg", initials: "AN" },
   "Sara R.": { image: "/clients/sara-r.jpg", initials: "SR" },
-  "Usman M.": { image: "/clients/usman-m.jpg", initials: "UM" },
+  "Osama Baig": { image: "/clients/usman-m.jpg", initials: "OB" },
   "Safina Riaz": { image: "/clients/fatima-h.jpg", initials: "SR" },
-  "Naveed M.": { image: "/clients/naveed-m.jpg", initials: "NM" },
+  "Ibrar Ali": { image: "/clients/naveed-m.jpg", initials: "IA" },
   "Zain A.": { image: "/clients/zain-a.jpg", initials: "ZA" },
   "Zain Abbas": { image: "/clients/zain-a.jpg", initials: "ZA" },
-  "M. Naveed": { image: "/clients/naveed-m.jpg", initials: "MN" },
   "Hira Asif": { image: "/clients/hira-a.jpg", initials: "HA" },
-  "Bilal K.": { image: "/clients/bilal-k.jpg", initials: "BK" },
+  "Bilal Khan": { image: "/clients/bilal-k.jpg", initials: "BK" },
   "Hamza S.": { image: "/clients/hamza-s.jpg", initials: "HS" },
 };
 
 export const clientResults = [
   {
-    name: "Ahmed K.",
+    name: "Ahmed Nisar",
     initials: "AK",
     program: "Elite Plan",
     quote:
@@ -66,7 +65,7 @@ export const clientResults = [
       { value: "22kg", label: "Lost" },
       { value: "16wk", label: "Duration" },
     ],
-    image: clientAvatars["Ahmed K."].image,
+    image: clientAvatars["Ahmed Nisar"].image,
   },
   {
     name: "Sara R.",
@@ -81,7 +80,7 @@ export const clientResults = [
     image: clientAvatars["Sara R."].image,
   },
   {
-    name: "Usman M.",
+    name: "Osama Baig",
     initials: "UM",
     program: "Starter Plan",
     quote:
@@ -90,7 +89,7 @@ export const clientResults = [
       { value: "+8kg", label: "Muscle" },
       { value: "16wk", label: "Duration" },
     ],
-    image: clientAvatars["Usman M."].image,
+    image: clientAvatars["Osama Baig"].image,
   },
   {
     name: "Safina Riaz",
@@ -122,10 +121,10 @@ export type ResultsMarqueeItem =
     };
 
 export const resultsMarqueeItems: ResultsMarqueeItem[] = [
-  { type: "stat", value: "22kg", label: "Lost", name: "Ahmed K.", plan: "Elite Plan" },
+  { type: "stat", value: "22kg", label: "Lost", name: "Ahmed Nisar", plan: "Elite Plan" },
   {
     type: "voice",
-    name: "Ahmed K.",
+    name: "Ahmed Nisar",
     plan: "Elite Plan",
     location: "Karachi, PK",
     duration: "0:38",
@@ -138,14 +137,14 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     type: "quote",
     quote:
       "I never thought I could look like this at 34. Arbaz changed my whole relationship with fitness — it's a lifestyle now.",
-    name: "Ahmed K.",
+    name: "Ahmed Nisar",
     location: "Karachi, PK",
     plan: "Elite Plan",
   },
-  { type: "stat", value: "+8kg", label: "Muscle", name: "Usman M.", plan: "Starter Plan" },
+  { type: "stat", value: "+8kg", label: "Muscle", name: "Osama Baig", plan: "Starter Plan" },
   {
     type: "voice",
-    name: "Usman M.",
+    name: "Osama Baig",
     plan: "Starter Plan",
     location: "Islamabad, PK",
     duration: "0:35",
@@ -157,7 +156,7 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
   {
     type: "quote",
     quote: "My lifts went through the roof. Programming is elite — worth every rupee.",
-    name: "Usman M.",
+    name: "Osama Baig",
     location: "Islamabad, PK",
     plan: "Starter Plan",
   },
@@ -180,10 +179,10 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
     location: "Karachi, PK",
     plan: "Premium Plan",
   },
-  { type: "stat", value: "20kg", label: "Lost", name: "Naveed M.", plan: "Elite Plan" },
+  { type: "stat", value: "20kg", label: "Lost", name: "Ibrar Ali", plan: "Elite Plan" },
   {
     type: "voice",
-    name: "Naveed M.",
+    name: "Ibrar Ali",
     plan: "Elite Plan",
     location: "Dubai, UAE",
     duration: "0:44",
@@ -195,7 +194,7 @@ export const resultsMarqueeItems: ResultsMarqueeItem[] = [
   {
     type: "quote",
     quote: "Hey I just weighed myself. I actually lost 4.4 kgs in about 2.5 weeks. Unbelievable progress!",
-    name: "Bilal K.",
+    name: "Bilal Khan",
     location: "Lahore, PK",
     plan: "Premium Plan",
   },
@@ -213,9 +212,9 @@ export const testimonials = [
   {
     quote:
       "I'm based in Dubai and was skeptical about online coaching but the results speak for themselves. Lost 20kg in 5 months and learned how to eat properly.",
-    name: "M. Naveed",
+    name: "Ibrar Ali",
     initials: "MN",
-    image: clientAvatars["M. Naveed"].image,
+    image: clientAvatars["Ibrar Ali"].image,
     location: "Dubai, UAE",
   },
   {

@@ -24,7 +24,7 @@ export const siteConfig = {
   /** E.164 without + */
   whatsappNumber: "13073925968",
   whatsappDisplay: "+1 307 392 5968",
-  email: "hello@arbazarif.com",
+  email: "m.arbazarif@gmail.com",
   copyrightYear: 2026,
 } as const;
 
