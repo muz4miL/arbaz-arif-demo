@@ -142,7 +142,7 @@ function MobileCarousel({ items, onVoicePlayingChange }: { items: ResultsMarquee
       </div>
 
       {/* Pagination dots */}
-      <div className="mt-5 flex items-center justify-center gap-2">
+      <div className="mt-10 flex items-center justify-center gap-2">
         {items.map((_, i) => (
           <button
             key={i}

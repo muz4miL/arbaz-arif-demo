@@ -41,7 +41,7 @@ const socials = [
   { label: "YouTube", href: siteConfig.youtube.url, icon: <IconYouTube />, handle: siteConfig.youtube.handle },
 ];
 
-const footerNavLinks = [...navLinks, { href: "#subscribe", label: "Contact" }];
+const footerNavLinks = navLinks;
 
 export function Footer() {
   return (

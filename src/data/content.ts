@@ -229,7 +229,7 @@ export const testimonials = [
 ];
 
 export const navLinks = [
-  { href: "#about", label: "About" },
+  { href: "#home", label: "Home" },
   { href: "#plans", label: "Plans" },
   { href: "#results", label: "Results" },
   { href: "#process", label: "Process" },

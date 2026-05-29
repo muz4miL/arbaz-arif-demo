@@ -25,7 +25,7 @@ export const siteConfig = {
   whatsappNumber: "13073925968",
   whatsappDisplay: "+1 307 392 5968",
   email: "hello@arbazarif.com",
-  copyrightYear: 2025,
+  copyrightYear: 2026,
 } as const;
 
 export type CoachingPlan = {
