@@ -398,25 +398,30 @@ export function Hero() {
         </div>
 
         <div ref={statsRef} className="hero-stats-desktop hidden lg:flex" role="group" aria-label="Coach credentials">
-          <div className="hero-stats-desktop__panel relative flex items-stretch overflow-hidden rounded-lg border border-white/[0.12] bg-gradient-to-b from-white/[0.08] to-white/[0.03] shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-xl">
-            {/* Top accent line */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[2px] bg-gradient-to-r from-transparent via-[#c8ff00]/60 to-transparent" aria-hidden />
-            {STATS.map((stat, i) => (
-              <div
-                key={stat.label}
-                className={`relative flex min-w-[180px] flex-col items-center justify-center gap-2.5 px-10 py-7 text-center ${i < STATS.length - 1 ? "border-r border-white/[0.06]" : ""}`}
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[#c8ff00]/20 bg-[#111] text-[#c8ff00]">
-                  <stat.Icon size={18} strokeWidth={1.5} />
-                </span>
-                <p className="text-[1.5rem] font-black leading-none tracking-tight text-white" style={{ textShadow: "0 2px 16px rgba(255,255,255,0.08)" }}>
-                  <StatCounter value={stat.value} numeric={stat.numeric} suffix={stat.suffix} />
-                </p>
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#bbb] whitespace-nowrap">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
+          <div className="w-full max-w-5xl mx-auto pt-8 border-t border-white/[0.06] relative">
+            {/* Subtle top accent glow */}
+            <div className="pointer-events-none absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-[#c8ff00]/40 to-transparent" aria-hidden />
+
+            <div className="flex flex-row justify-between items-stretch gap-4 divide-x divide-white/[0.05]">
+              {STATS.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="flex flex-col items-center justify-center flex-1 px-4 py-2 group"
+                >
+                  <span className="text-[#c8ff00] text-xl mb-2 transition-transform duration-300 group-hover:scale-110">
+                    <stat.Icon size={20} strokeWidth={1.5} />
+                  </span>
+                  <div className="flex flex-col items-center">
+                    <span className="text-white font-extrabold text-2xl md:text-3xl tracking-tight tabular-nums" style={{ textShadow: "0 2px 16px rgba(255,255,255,0.08)" }}>
+                      <StatCounter value={stat.value} numeric={stat.numeric} suffix={stat.suffix} />
+                    </span>
+                    <span className="text-neutral-400 text-[10px] font-bold tracking-[0.16em] uppercase mt-1 transition-colors duration-300 group-hover:text-white/80">
+                      {stat.label}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -447,22 +452,26 @@ export function Hero() {
         </div>
 
         <div ref={statsMobileRef} className="hero-stats-mobile">
-          <ul className="grid grid-cols-2">
+          <div className="w-full">
             {STATS.map((stat, i) => (
-              <li
+              <div
                 key={stat.label}
-                className={`flex flex-col items-center gap-2.5 p-6 text-center ${i % 2 === 0 ? "border-r border-white/[0.06]" : ""} ${i < 2 ? "border-b border-white/[0.06]" : ""}`}
+                className={`flex items-center justify-between px-5 py-4 ${i < STATS.length - 1 ? "border-b border-white/[0.05]" : ""}`}
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#c8ff00]/20 bg-[#111] text-[#c8ff00]">
-                  <stat.Icon size={16} strokeWidth={1.5} />
+                <div className="flex items-center gap-4">
+                  <span className="text-[#c8ff00] text-lg">
+                    <stat.Icon size={18} strokeWidth={1.5} />
+                  </span>
+                  <span className="text-white font-extrabold text-xl tracking-tight tabular-nums" style={{ textShadow: "0 2px 12px rgba(255,255,255,0.06)" }}>
+                    <StatCounter value={stat.value} numeric={stat.numeric} suffix={stat.suffix} />
+                  </span>
+                </div>
+                <span className="text-neutral-400 text-[10px] font-bold uppercase tracking-[0.16em] text-right">
+                  {stat.label}
                 </span>
-                <p className="text-[1.15rem] font-black leading-none tracking-tight text-white" style={{ textShadow: "0 2px 12px rgba(255,255,255,0.06)" }}>
-                  <StatCounter value={stat.value} numeric={stat.numeric} suffix={stat.suffix} />
-                </p>
-                <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#bbb]">{stat.label}</p>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
     </section>

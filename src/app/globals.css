@@ -98,10 +98,6 @@
     z-index: 20;
     margin: -2.5rem 1.25rem 2.5rem;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
 }
 
 /* Desktop: ~110% visual scale vs previous 100% (no CSS zoom) */
@@ -154,10 +150,7 @@
       transform: translateX(-50%);
    }
 
-   .hero-stats-desktop__panel {
-      transform: scale(1.1);
-      transform-origin: center bottom;
-   }
+
 }
 
 @media (min-width: 1280px) {
