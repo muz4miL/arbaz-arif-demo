@@ -112,8 +112,8 @@ export function Navbar() {
         {/* Mobile hamburger */}
         <button
           onClick={toggleMenu}
-          className={`lg:hidden relative flex flex-col items-center justify-center gap-[5px]
-                     bg-transparent border-none cursor-pointer w-8 h-8 ${menuOpen ? "opacity-0 pointer-events-none" : ""}`}
+          className="lg:hidden relative flex flex-col items-center justify-center gap-[5px]
+                     bg-transparent border-none cursor-pointer w-8 h-8"
           style={{ zIndex: 110 }}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
@@ -135,15 +135,6 @@ export function Navbar() {
           className="mobile-nav-overlay fixed inset-0 bg-[#080808] flex flex-col items-center justify-center lg:hidden"
           style={{ zIndex: 105 }}
         >
-          <button
-            type="button"
-            onClick={closeMenu}
-            className="mobile-menu-close"
-            aria-label="Close menu"
-          >
-            <span className="mobile-menu-close-line" />
-            <span className="mobile-menu-close-line" />
-          </button>
           <ul className="flex flex-col items-center gap-8 list-none">
             {navLinks.map((link) => (
               <li key={link.href} className="mobile-nav-link" style={{ opacity: 0 }}>
